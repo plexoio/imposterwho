@@ -127,6 +127,13 @@
     rotate: 30deg;
 }
 
+#hg-square-1 {
+    /* pink */
+    top: calc(50% - 250px);
+    left: calc(50% - 20px);
+    rotate: 60deg;
+}
+
 #hg-triangle-2 {
     /* blue */
     top: calc(50% - 30px);
@@ -162,7 +169,7 @@
 }
 
 #md-circle-1 {
-    /* pink */
+    /* purple */
     top: calc(50% + 50px);
     right: calc(50% - 120px);
     rotate: 30deg;
