@@ -122,83 +122,83 @@
 /* shape positions and rotations */
 #hg-square-2 {
     /* red */
-    top: calc(50% + 140px);
+    top: calc(50% + 100px);
     left: calc(50% - 80px);
     rotate: 10deg;
 }
 
 #hg-circle-1 {
     /* blue */
-    top: calc(50% + 60px);
+    top: calc(50% + 20px);
     left: calc(50% - 250px);
     rotate: 30deg;
 }
 
 #hg-square-1 {
     /* pink */
-    top: calc(50% - 220px);
+    top: calc(50% - 260px);
     left: calc(50% - 50px);
     rotate: 60deg;
 }
 
 #hg-triangle-2 {
     /* blue */
-    top: calc(50% - 30px);
+    top: calc(50% - 70px);
     left: calc(50% + 50px);
     rotate: 300deg;
 }
 
 #lg-triangle-2 {
     /* yellow */
-    top: calc(50% + 100px);
+    top: calc(50% + 60px);
     left: calc(50% - 40px);
     rotate: 110deg;
 }
 
 #lg-square-1 {
     /* green */
-    top: calc(50% - 20px);
+    top: calc(50% - 60px);
     left: calc(50% - 80px);
     rotate: 30deg;
 }
 
 #lg-circle-1 {
     /* yellow */
-    top: calc(50% - 200px);
+    top: calc(50% - 240px);
     left: calc(50% - 150px);
 }
 
 #lg-triangle-1 {
     /* light-blue */
-    top: calc(50% + 105px);
+    top: calc(50% + 65px);
     left: calc(50% + 30px);
     rotate: 30deg;
 }
 
 #hg-triangle-1 {
     /* red */
-    top: calc(50% - 60px);
+    top: calc(50% - 100px);
     left: calc(50% - 280px);
     rotate: 330deg;
 }
 
 #md-circle-1 {
     /* purple */
-    top: calc(50% + 50px);
+    top: calc(50% + 10px);
     right: calc(50% - 120px);
     rotate: 30deg;
 }
 
 #md-square-1 {
     /* orange */
-    top: calc(50% + 100px);
+    top: calc(50% + 60px);
     right: calc(50% - 200px);
     rotate: 70deg;
 }
 
 #sm-square-1 {
     /* light-blue */
-    top: calc(50% - 180px);
+    top: calc(50% - 220px);
     left: calc(50% - 180px);
     rotate: 30deg;
 }
