@@ -120,6 +120,13 @@
 }
 
 /* shape positions and rotations */
+#hg-square-2 {
+    /* red */
+    top: calc(50% + 140px);
+    left: calc(50% - 80px);
+    rotate: 10deg;
+}
+
 #hg-circle-1 {
     /* blue */
     top: calc(50% + 60px);
@@ -129,8 +136,8 @@
 
 #hg-square-1 {
     /* pink */
-    top: calc(50% - 250px);
-    left: calc(50% - 20px);
+    top: calc(50% - 220px);
+    left: calc(50% - 50px);
     rotate: 60deg;
 }
 
@@ -139,6 +146,13 @@
     top: calc(50% - 30px);
     left: calc(50% + 50px);
     rotate: 300deg;
+}
+
+#lg-triangle-2 {
+    /* yellow */
+    top: calc(50% + 100px);
+    left: calc(50% - 40px);
+    rotate: 110deg;
 }
 
 #lg-square-1 {
@@ -156,8 +170,8 @@
 
 #lg-triangle-1 {
     /* light-blue */
-    top: calc(50% + 150px);
-    left: calc(50% + 50px);
+    top: calc(50% + 105px);
+    left: calc(50% + 30px);
     rotate: 30deg;
 }
 
