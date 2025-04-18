@@ -215,7 +215,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file"],
+            "handlers": ["file"],  # could also "console",
             "level": "DEBUG",
             "propagate": True,
         },
