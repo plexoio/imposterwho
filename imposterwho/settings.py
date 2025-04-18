@@ -96,6 +96,8 @@ WSGI_APPLICATION = "imposterwho.wsgi.application"
 
 # Authentication
 
+AUTH_USER_MODEL = 'homepage.UserProfile'
+
 if DEBUG:
     SITE_ID = 2  # ID for development domain
 else:
