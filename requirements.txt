@@ -1,10 +1,15 @@
 asgiref==3.8.1
+black==25.1.0
+click==8.1.8
 cloudinary==1.44.0
 dj-database-url==2.3.0
-Django>=5.2
+Django==5.2
+django-allauth==65.7.0
+django-cloudinary-storage==0.3.0
 django-heroku==0.3.1
 django-summernote==0.8.20.0
 gunicorn==23.0.0
+pathspec==0.12.1
 psycopg2==2.9.10
 sqlparse==0.5.3
 whitenoise==6.9.0
