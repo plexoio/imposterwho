@@ -1,0 +1,144 @@
+/* Initial css for background shape positioning (and animation) by:
+ * Mohaiman @ https://codepen.io/mohaiman
+ */
+
+ :root {
+    --red: #c0392b;
+    --orange: #e67e22;
+    --pink: #e84393;
+    --yellow: #f1c40f;
+    --green: #2ecc71;
+    --blue: #3498db;
+    --purple: #8e44ad;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.area {
+    /* background: #4e54c8; */
+    /* background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); */
+    width: 100%;
+    height: 100vh;
+}
+
+.shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.shapes li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    /* required for animation, bottom being off-screen is to hide the "respawn" of shapes */
+    /* animation: animate 25s linear infinite;
+    bottom: -150px; */
+}
+
+/* shapes color */
+.shapes .red {
+    --shape-color: var(--red);
+}
+
+.shapes .orange {
+    --shape-color: var(--orange);
+}
+
+.shapes .pink {
+    --shape-color: var(--pink);
+}
+
+.shapes .yellow {
+    --shape-color: var(--yellow);
+}
+
+.shapes .green {
+    --shape-color: var(--green);
+}
+
+.shapes .blue {
+    --shape-color: var(--blue);
+}
+
+.shapes .purple {
+    --shape-color: var(--purple);
+}
+
+/* shapes size */
+.shapes .big {
+    --shape-width: 150px;
+    --shape-height: 150px;
+}
+
+.shapes .medium {
+    --shape-width: 90px;
+    --shape-height: 90px;
+}
+
+.shapes .small {
+    --shape-width: 45px;
+    --shape-height: 45px;
+}
+
+/* shapes; triangle, circle, or square */
+.shapes .triangle {
+    border-top: calc(var(--shape-width)/3) solid transparent;
+    border-right: var(--shape-width) solid var(--shape-color);
+    border-bottom: calc(var(--shape-width)/2) solid transparent;
+}
+
+.shapes .circle {
+    width: var(--shape-width);
+    height: var(--shape-height);
+    border-radius: 50%;
+    background: var(--shape-color);
+}
+
+.shapes .square {
+    width: var(--shape-width);
+    height: var(--shape-height);
+    background: var(--shape-color);
+}
+
+/* shape positions and rotations */
+#shape-1 {
+    top: calc(50% - 20px);
+    left: calc(50% - 80px);
+}
+
+#shape-4 {
+    top: calc(50% - 150px);
+    right: calc(50% - 100px);
+    rotate: 60deg;
+}
+
+#shape-8 {
+    top: calc(50% - 10px);
+    left: calc(50% + 50px);
+    rotate: 30deg;
+}
+
+/* to avoid the shapes "re-appearing" suddenly, we could have a fade-in
+ * rather than the shapes starting below the screen? */
+/* @keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+    }
+
+} */
