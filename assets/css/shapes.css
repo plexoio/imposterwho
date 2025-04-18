@@ -2,13 +2,14 @@
  * Mohaiman @ https://codepen.io/mohaiman
  */
 
- :root {
+:root {
     --red: #c0392b;
     --orange: #e67e22;
     --pink: #e84393;
     --yellow: #f1c40f;
     --green: #2ecc71;
-    --blue: #3498db;
+    --light-blue: #3498db;
+    --blue: #273c75;
     --purple: #8e44ad;
 }
 
@@ -65,6 +66,10 @@
     --shape-color: var(--green);
 }
 
+.shapes .light-blue {
+    --shape-color: var(--light-blue);
+}
+
 .shapes .blue {
     --shape-color: var(--blue);
 }
@@ -74,7 +79,12 @@
 }
 
 /* shapes size */
-.shapes .big {
+.shapes .huge {
+    --shape-width: 240px;
+    --shape-height: 240px;
+}
+
+.shapes .large {
     --shape-width: 150px;
     --shape-height: 150px;
 }
@@ -85,8 +95,8 @@
 }
 
 .shapes .small {
-    --shape-width: 45px;
-    --shape-height: 45px;
+    --shape-width: 60px;
+    --shape-height: 60px;
 }
 
 /* shapes; triangle, circle, or square */
@@ -110,20 +120,65 @@
 }
 
 /* shape positions and rotations */
-#shape-1 {
+#hg-circle-1 {
+    /* blue */
+    top: calc(50% + 60px);
+    left: calc(50% - 250px);
+    rotate: 30deg;
+}
+
+#hg-triangle-2 {
+    /* blue */
+    top: calc(50% - 30px);
+    left: calc(50% + 50px);
+    rotate: 300deg;
+}
+
+#lg-square-1 {
+    /* green */
     top: calc(50% - 20px);
     left: calc(50% - 80px);
+    rotate: 30deg;
 }
 
-#shape-4 {
-    top: calc(50% - 150px);
-    right: calc(50% - 100px);
-    rotate: 60deg;
+#lg-circle-1 {
+    /* yellow */
+    top: calc(50% - 200px);
+    left: calc(50% - 150px);
 }
 
-#shape-8 {
-    top: calc(50% - 10px);
+#lg-triangle-1 {
+    /* light-blue */
+    top: calc(50% + 150px);
     left: calc(50% + 50px);
+    rotate: 30deg;
+}
+
+#hg-triangle-1 {
+    /* red */
+    top: calc(50% - 60px);
+    left: calc(50% - 280px);
+    rotate: 330deg;
+}
+
+#md-circle-1 {
+    /* pink */
+    top: calc(50% + 50px);
+    right: calc(50% - 120px);
+    rotate: 30deg;
+}
+
+#md-square-1 {
+    /* orange */
+    top: calc(50% + 100px);
+    right: calc(50% - 200px);
+    rotate: 70deg;
+}
+
+#sm-square-1 {
+    /* light-blue */
+    top: calc(50% - 180px);
+    left: calc(50% - 180px);
     rotate: 30deg;
 }
 
