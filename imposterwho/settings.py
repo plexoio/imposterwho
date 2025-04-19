@@ -32,6 +32,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "")
 IN_DEVELOPMENT = os.environ.get("IN_DEVELOPMENT", "False").strip().lower() == "true"
 DEBUG = IN_DEVELOPMENT
 
+
 ALLOWED_HOSTS = []
 
 # Deployment
@@ -57,10 +58,21 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    #utilities
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "django_summernote",
+
+    # apps
+    "admin_dashboard",
 ]
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,7 +90,12 @@ ROOT_URLCONF = "imposterwho.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            TEMPLATES_DIR,
+            os.path.join(BASE_DIR, 'templates'),
+            os.path.join(BASE_DIR, 'templates', 'allauth'),
+
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
