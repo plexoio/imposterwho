@@ -1,128 +1,274 @@
-{% extends "./base.html" %}
+{% extends "./admin_base.html" %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="container py-5">
-  <h1 class="text-center mb-5">Dashboard ImposterWho</h1>
+<div class="container-fluid py-4">
 
+    {% if messages %}
+<div class="container-fluid">
+  {% for message in messages %}
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+    <h1 class="h3 font-weight-bold text-gray-800 mb-3 mb-md-0">ImposterWho Dashboard</h1>
+  </div>
+
+  <!-- Top Row: Stats and Categories -->
+  <div class="row mb-4">
+    <!-- Stats Cards - Stack on mobile, side by side on larger screens -->
+    <div class="col-lg-8 mb-4 mb-lg-0">
+      <div class="row">
+        <!-- Categories Card -->
+        <div class="col-md-4 mb-3">
+          <div class="card border-left-primary shadow h-100">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="text-xs font-weight-bold text-primary mb-1">Categories</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ quote_types.count }}</div>
+                </div>
+                <div class="icon-circle bg-primary-light">
+                  <i class="fas fa-tags text-primary"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quotes Card -->
+        <div class="col-md-4 mb-3">
+          <div class="card border-left-success shadow h-100">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="text-xs font-weight-bold text-success mb-1">Motivational Quotes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ motivational_quotes.count }}</div>
+                </div>
+                <div class="icon-circle bg-success-light">
+                  <i class="fas fa-quote-right text-success"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quizzes Card -->
+        <div class="col-md-4 mb-3">
+          <div class="card border-left-info shadow h-100">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="text-xs font-weight-bold text-info mb-1">Quizzes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ quizzes.count }}</div>
+                </div>
+                <div class="icon-circle bg-info-light">
+                  <i class="fas fa-question-circle text-info"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories Section - Full width on mobile, side by side on larger screens -->
+    <div class="col-lg-4">
+      <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-bold text-primary">Categories</h6>
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <i class="fas fa-plus mr-1"></i> Add
+          </button>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <tbody>
+                {% for type in quote_types %}
+                <tr>
+                  <td class="align-middle">{{ type.name }}</td>
+                  <td class="text-end">
+                    <button 
+                    class="btn btn-sm btn-danger" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#deleteConfirmModal" 
+                    data-id="{{ type.id }}" 
+                    data-type="category"
+                    data-name="{{ type.name }}">
+                    <i class="fas fa-trash"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="2" class="text-center text-muted py-3">No categories created yet.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Row: Quotes and Quizzes - Stack on mobile -->
   <div class="row">
-    <!-- Sección: Citas motivacionales -->
-    <div class="col-md-6">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Motivational Phrases</h2>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#quoteModal">+ Add</button>
-      </div>
+    <!-- Motivational Quotes Section -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-bold text-primary">Motivational Quotes</h6>
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#quoteModal">
+            <i class="fas fa-plus mr-1"></i> Add
+          </button>
+        </div>
+        <div class="card-body">
+          {% for quote in motivational_quotes %}
+          <div class="card mb-3 border-left-success">
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p class="font-italic">"{{ quote.text }}"</p>
+                <footer class="blockquote-footer">{{ quote.author|default:"Anonymous" }} 
+                  <span class="badge bg-success text-white ml-2">{{ quote.quote_type.name }}</span>
+                </footer>
+              </blockquote>
+              <div class="mt-3 d-flex flex-wrap gap-2">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quoteModal" data-id="{{ quote.id }}">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button 
+                    class="btn btn-sm btn-outline-danger" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#deleteConfirmModal" 
+                    data-id="{{ quote.id }}" 
+                    data-type="quote"
+                    data-name="{{ quote.text|truncatewords:10|escape }}">
+                    <i class="fas fa-trash"></i>
+                    </button>
 
-      <div class="list-group">
-        {% for quote in motivational_quotes %}
-          <div class="list-group-item">
-            <p class="mb-1"><em>"{{ quote.text }}"</em></p>
-            <small>- {{ quote.author }} | <strong>{{ quote.quote_type.name }}</strong></small>
-            <div class="mt-2">
-              <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#quoteModal" data-id="{{ quote.id }}">Edit/button>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
+              </div>
             </div>
           </div>
-        {% empty %}
-          <p class="text-muted">There are no motivational phrases.</p>
-        {% endfor %}
+          {% empty %}
+          <div class="text-center text-muted py-4">
+            <i class="fas fa-quote-right fa-2x mb-2"></i>
+            <p>No motivational quotes added yet.</p>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
-    <!-- Sección: Quizzes -->
-    <div class="col-md-6">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Emergency Quizzes</h2>
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#quizModal">+ Add</button>
-      </div>
-
-      <div class="list-group">
-        {% for quiz in quizzes %}
-          <div class="list-group-item">
-            <h5>{{ quiz.title }}</h5>
-            <p class="mb-1">{{ quiz.description|truncatewords:20 }}</p>
-            <small>Categoría: {{ quiz.category.name }}</small>
-            <div class="mt-2">
-              <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#quizModal" data-id="{{ quiz.id }}">Edit</button>
-              <a href="#" class="btn btn-danger btn-sm">Delete</a>
+    <!-- Quizzes Section -->
+    <div class="col-lg-6 mb-4">
+      <div class="card shadow h-100">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-bold text-primary">Emergency Quizzes</h6>
+          <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#quizModal">
+            <i class="fas fa-plus mr-1"></i> Add
+          </button>
+        </div>
+        <div class="card-body">
+          {% for quiz in quizzes %}
+          <div class="card mb-3 border-left-info">
+            <div class="card-body">
+              <h5 class="card-title">{{ quiz.title }}</h5>
+              <p class="card-text text-muted">{{ quiz.description|truncatewords:20 }}</p>
+              <span class="badge bg-info text-white">{{ quiz.category.name }}</span>
+              <div class="mt-3 d-flex flex-wrap gap-2">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#quizModal" data-id="{{ quiz.id }}">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button 
+                class="btn btn-sm btn-outline-danger" 
+                data-bs-toggle="modal" 
+                data-bs-target="#deleteConfirmModal" 
+                data-id="{{ quiz.id }}" 
+                data-type="quiz"
+                data-name="{{ quiz.title }}">
+                <i class="fas fa-trash"></i>
+              </button>
+              
+              </div>
             </div>
           </div>
-        {% empty %}
-          <p class="text-muted">There are no quizzes yet.</p>
-        {% endfor %}
+          {% empty %}
+          <div class="text-center text-muted py-4">
+            <i class="fas fa-question-circle fa-2x mb-2"></i>
+            <p>No quizzes created yet.</p>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Nueva Cita -->
-<div class="modal fade" id="quoteModal" tabindex="-1" aria-labelledby="quoteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="quoteModalLabel">New Motivational Phrase</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form method="post" action="#">
+<!-- Modals (same as before) -->
+{% include "includes/quote_modal.html" %}
+{% include "includes/quiz_modal.html" %}
+{% include "includes/category_modal.html" %}
+
+<!-- Modal genérico de confirmación -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form method="post" id="deleteConfirmForm">
         {% csrf_token %}
-        <div class="modal-body">
-          <div class="mb-3">
-            <textarea name="text" class="form-control" rows="3" placeholder="Write a motivational phrase"></textarea>
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="deleteConfirmLabel">Confirmar eliminación</h5>
+            <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
-          <div class="mb-3">
-            <input name="author" type="text" class="form-control" placeholder="Author (opcional)">
+          <div class="modal-body">
+            ¿Estás seguro de que quieres eliminar este elemento?
           </div>
-          <div class="mb-3">
-            <label for="quote_type" class="form-label">Category</label>
-            <select name="quote_type" id="quote_type" class="form-select">
-              {% for type in quote_types %}
-                <option value="{{ type.id }}">{{ type.name }}</option>
-              {% endfor %}
-            </select>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save</button>
         </div>
       </form>
     </div>
   </div>
-</div>
 
-<!-- Modal Nuevo Quiz -->
-<div class="modal fade" id="quizModal" tabindex="-1" aria-labelledby="quizModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="quizModalLabel">New Emergency Quiz</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form method="post" action="#">
-        {% csrf_token %}
-        <div class="modal-body">
-          <div class="mb-3">
-            <input name="title" type="text" class="form-control" placeholder="Títle quiz">
-          </div>
-          <div class="mb-3">
-            <textarea name="description" class="form-control" rows="3" placeholder="Description"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="category" class="form-label">Category</label>
-            <select name="category" id="category" class="form-select">
-              {% for type in quote_types %}
-                <option value="{{ type.id }}">{{ type.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const deleteModal = document.getElementById('deleteConfirmModal');
+      deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const type = button.getAttribute('data-type');
+        const name = button.getAttribute('data-name');
+    
+        // Actualiza el form
+        const form = deleteModal.querySelector('#deleteConfirmForm');
+        form.action = `delete/${type}/${id}/`;
+    
+        // Puedes también actualizar el texto si quieres hacerlo más bonito:
+        const modalBody = deleteModal.querySelector('.modal-body');
+        modalBody.innerHTML = `¿Estás seguro de que quieres eliminar <strong>${name}</strong>?`;
+      });
+    });
+    </script>
+    
+  
+
+
+{% endblock %}
+
+
+{% block postloadjs %}
 
 {% endblock %}

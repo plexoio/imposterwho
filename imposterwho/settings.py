@@ -65,6 +65,8 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
 
     "django_summernote",
+    'crispy_forms',
+    'crispy_bootstrap5',
 
     # apps
     "admin_dashboard",
@@ -94,7 +96,9 @@ ROOT_URLCONF = "imposterwho.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [
+            BASE_DIR / "templates",
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -141,6 +145,9 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
