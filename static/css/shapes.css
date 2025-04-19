@@ -1,0 +1,220 @@
+/* Initial css for background shape positioning (and animation) by:
+ * Mohaiman @ https://codepen.io/mohaiman
+ */
+
+:root {
+    --red: #c0392b;
+    --orange: #e67e22;
+    --pink: #e84393;
+    --yellow: #f1c40f;
+    --green: #2ecc71;
+    --light-blue: #3498db;
+    --blue: #273c75;
+    --purple: #8e44ad;
+}
+
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.area {
+    /* background: #4e54c8; */
+    /* background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8); */
+    width: 100%;
+    height: 100vh;
+}
+
+.shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.shapes li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    /* required for animation, bottom being off-screen is to hide the "respawn" of shapes */
+    /* animation: animate 25s linear infinite;
+    bottom: -150px; */
+}
+
+/* shapes color */
+.shapes .red {
+    --shape-color: var(--red);
+}
+
+.shapes .orange {
+    --shape-color: var(--orange);
+}
+
+.shapes .pink {
+    --shape-color: var(--pink);
+}
+
+.shapes .yellow {
+    --shape-color: var(--yellow);
+}
+
+.shapes .green {
+    --shape-color: var(--green);
+}
+
+.shapes .light-blue {
+    --shape-color: var(--light-blue);
+}
+
+.shapes .blue {
+    --shape-color: var(--blue);
+}
+
+.shapes .purple {
+    --shape-color: var(--purple);
+}
+
+/* shapes size */
+.shapes .huge {
+    --shape-width: 240px;
+    --shape-height: 240px;
+}
+
+.shapes .large {
+    --shape-width: 150px;
+    --shape-height: 150px;
+}
+
+.shapes .medium {
+    --shape-width: 90px;
+    --shape-height: 90px;
+}
+
+.shapes .small {
+    --shape-width: 60px;
+    --shape-height: 60px;
+}
+
+/* shapes; triangle, circle, or square */
+.shapes .triangle {
+    border-top: calc(var(--shape-width)/3) solid transparent;
+    border-right: var(--shape-width) solid var(--shape-color);
+    border-bottom: calc(var(--shape-width)/2) solid transparent;
+}
+
+.shapes .circle {
+    width: var(--shape-width);
+    height: var(--shape-height);
+    border-radius: 50%;
+    background: var(--shape-color);
+}
+
+.shapes .square {
+    width: var(--shape-width);
+    height: var(--shape-height);
+    background: var(--shape-color);
+}
+
+/* shape positions and rotations */
+#hg-square-2 {
+    /* red */
+    top: calc(50% + 100px);
+    left: calc(50% - 80px);
+    rotate: 10deg;
+}
+
+#hg-circle-1 {
+    /* blue */
+    top: calc(50% + 20px);
+    left: calc(50% - 250px);
+    rotate: 30deg;
+}
+
+#hg-square-1 {
+    /* pink */
+    top: calc(50% - 260px);
+    left: calc(50% - 50px);
+    rotate: 60deg;
+}
+
+#hg-triangle-2 {
+    /* blue */
+    top: calc(50% - 70px);
+    left: calc(50% + 50px);
+    rotate: 300deg;
+}
+
+#lg-triangle-2 {
+    /* yellow */
+    top: calc(50% + 60px);
+    left: calc(50% - 40px);
+    rotate: 110deg;
+}
+
+#lg-square-1 {
+    /* green */
+    top: calc(50% - 60px);
+    left: calc(50% - 80px);
+    rotate: 30deg;
+}
+
+#lg-circle-1 {
+    /* yellow */
+    top: calc(50% - 240px);
+    left: calc(50% - 150px);
+}
+
+#lg-triangle-1 {
+    /* light-blue */
+    top: calc(50% + 65px);
+    left: calc(50% + 30px);
+    rotate: 30deg;
+}
+
+#hg-triangle-1 {
+    /* red */
+    top: calc(50% - 100px);
+    left: calc(50% - 280px);
+    rotate: 330deg;
+}
+
+#md-circle-1 {
+    /* purple */
+    top: calc(50% + 10px);
+    right: calc(50% - 120px);
+    rotate: 30deg;
+}
+
+#md-square-1 {
+    /* orange */
+    top: calc(50% + 60px);
+    right: calc(50% - 200px);
+    rotate: 70deg;
+}
+
+#sm-square-1 {
+    /* light-blue */
+    top: calc(50% - 220px);
+    left: calc(50% - 180px);
+    rotate: 30deg;
+}
+
+/* to avoid the shapes "re-appearing" suddenly, we could have a fade-in
+ * rather than the shapes starting below the screen? */
+/* @keyframes animate {
+
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+    }
+
+} */
