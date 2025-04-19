@@ -31,6 +31,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "")
 # SECURITY WARNING: don't run with debug turned on in production!
 IN_DEVELOPMENT = os.environ.get("IN_DEVELOPMENT", "False").strip().lower() == "true"
 DEBUG = IN_DEVELOPMENT
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 ALLOWED_HOSTS = []
 
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    "homepage",
 ]
 
 MIDDLEWARE = [
@@ -78,7 +80,7 @@ ROOT_URLCONF = "imposterwho.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -93,6 +95,8 @@ TEMPLATES = [
 WSGI_APPLICATION = "imposterwho.wsgi.application"
 
 # Authentication
+
+AUTH_USER_MODEL = 'homepage.UserProfile'
 
 if DEBUG:
     SITE_ID = 2  # ID for development domain
@@ -175,6 +179,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
