@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('game/', include('game.urls'), name='game'),  # Include the app's URL patterns
     path('', include('homepage.urls'), name='home'),  # Add your app's URL patterns here
 ]
