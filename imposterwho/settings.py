@@ -33,6 +33,7 @@ IN_DEVELOPMENT = os.environ.get("IN_DEVELOPMENT", "False").strip().lower() == "t
 DEBUG = IN_DEVELOPMENT
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
+
 ALLOWED_HOSTS = []
 
 # Deployment
@@ -58,11 +59,26 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    #utilities
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+
+    "django_summernote",
+    'crispy_forms',
+    'crispy_bootstrap5',
+
+    # apps
+    "admin_dashboard",
     "homepage",
+
 ]
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -80,7 +96,9 @@ ROOT_URLCONF = "imposterwho.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [
+            BASE_DIR / "templates",
+            ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -127,6 +145,9 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
