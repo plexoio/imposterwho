@@ -19,5 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('homepage.urls'), name='home'),  # Add your app's URL patterns here
+    path('manager/', include('admin_dashboard.urls')),
+    path("accounts/", include("allauth.urls")),
+    path('', include('homepage.urls'), name='home'), 
 ]
