@@ -52,6 +52,11 @@ interact('.drag-drop')
     .draggable({
         inertia: true,
         modifiers: [
+            interact.modifiers.snap({
+                targets: [
+                    { x: 500, y: 500, range: 50 },
+                ]
+            }),
             interact.modifiers.restrictRect({
                 restriction: 'parent',
                 endOnly: true
