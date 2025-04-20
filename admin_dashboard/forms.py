@@ -23,9 +23,11 @@ class CategoryForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = "post"
         self.helper.layout = Layout(
+
             Row(Column("name", css_class="form-group col-md-6"), css_class="form-row"),
             Submit("submit", "Guardar", css_class="btn-primary"),
         )
+
 
 
 class MotivationalQuoteForm(forms.ModelForm):
