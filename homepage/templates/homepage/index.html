@@ -1,7 +1,14 @@
-{% extends "base.html" %}
+
 {% block title %}Home{% endblock %}
 {% block content %}
 
 <h1>Welcome</h1>
+<p>{% url "llm_interact" %}</p>
+
+<form action="{% url 'llm_interact' %}" method="post" style="z-index: 999999;">
+    {% csrf_token %}
+    <input type="text" name="title">
+    <button type="submit">Test</button>
+</form>
 
 {% endblock %}
