@@ -157,9 +157,9 @@
 
 #lg-square-1 {
     /* green */
-    top: calc(50% - 60px);
     left: calc(50% - 80px);
     rotate: 30deg;
+    top: calc(50% - 60px);
 }
 
 #lg-circle-1 {
@@ -218,3 +218,79 @@
     }
 
 } */
+
+/* Posición específica para las figuras clickeables */
+#quote-shape {
+    top: calc(10% + 100px); /* ajusta según gusto */
+    left: calc(25% + 100px); /* ajusta según gusto */
+    rotate: -15deg;
+    
+}
+
+#quiz-shape {
+    top: calc(50% - 180px); /* ajusta según gusto */
+    left: calc(40% + 180px); /* ajusta según gusto */
+    rotate: 20deg;
+}
+
+#game-shape {
+    top: calc(90% - 180px); /* ajusta según gusto */
+    left: calc(40% + 180px); /* ajusta según gusto */
+    rotate: 20deg;
+}
+
+@media (max-width: 768px) {
+    #quote-shape,
+    #quiz-shape {
+        transform: scale(0.7);
+        left: 10%;
+        top: auto;
+        bottom: 80px;
+    }
+}
+
+
+/*EXTRA CONTENT RICHARD IDEA*/
+.clickable-shape {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    width: var(--shape-width);
+    height: var(--shape-height);
+    z-index: 1000!important;
+}
+
+.clickable-shape:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Texto encima de la figura */
+a.shape-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: white;
+    pointer-events: auto!important;
+    z-index: 100!important; 
+}
+a.shape-link-game {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: white;
+    pointer-events: auto!important;
+    z-index: 100!important; 
+}
+
+a.shape-link:hover {
+    text-decoration: underline;
+}

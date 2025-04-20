@@ -1,24 +1,43 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- bootstrap -->
+    <title>{% block title %}Imposter Syndrome Helper{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <!-- stylesheet -->
-    <link rel="stylesheet" href="{% static 'css/shapes.css' %}">
-</head>
 
-<body>
-    <div class="area">
+    <!-- Custom Shapes Background CSS -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shapes.css' %}">
+    
+    {% block extra_head %}{% endblock %}
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="position-relative text-light" style="min-height: 100vh; overflow-x: hidden;">
+
+    <!-- Background Decorative Shapes -->
+    <div class="area position-fixed w-100 h-75 top-0 start-0 z-n1">
         <ul class="shapes">
-            <!-- Larger images at the back, and thus should be the top div's.
-            Smaller images at the front, and thus should be bottom div's -->
             <li id="hg-square-2" class="huge red square"></li>
             <li id="hg-circle-1" class="huge blue circle"></li>
             <li id="hg-square-1" class="huge pink square"></li>
@@ -37,18 +56,70 @@
             <li id="shape-10"></li>
         </ul>
     </div>
+    
 
-    <main>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">ImposterWho</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="container py-5">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div>
+            <ul class="shapes">
+                <li id="quote-shape" class="large purple square clickable-shape">
+                    <a href="/quotes" class="shape-link">Quotes</a>
+                </li>
+                <li id="quiz-shape" class="large green circle clickable-shape">
+                    <a href="/quiz" class="shape-link">Quiz</a>
+                </li>
+                <li id="game-shape" class="large green square clickable-shape">
+                    <a href="/quiz" class="shape-link-game">Games</a>
+                </li>
+                <!-- Otras figuras -->
+            </ul>
+        </div>
+
         {% block content %}
         {% endblock %}
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-footer text-center text-white py-2 mt-auto">
+        <div class="container">
+            <p class="mb-1">© {{ now|date:"Y" }} ImposterWho. All rights reserved.</p>
+            <small>Helping you silence your inner critic.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
 </body>
-
-<!-- bootstrap script -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-    crossorigin="anonymous"></script>
-<!-- custom script -->
-<!-- <script src=""></script> -->
-
 </html>
