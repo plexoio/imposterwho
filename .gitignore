@@ -5,7 +5,7 @@ env.py
 __pycache__/
 *.py[cod]
 node_modules/
-
+# .github/ Keep this one commented!
 cloudinary_python.txt
 *.sqllite3
 *.pyc
