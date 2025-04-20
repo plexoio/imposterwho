@@ -208,6 +208,25 @@ AWS_STORAGE_BUCKET_NAME = None
 AWS_CLOUD_FRONT = None
 AWS_S3_REGION_NAME = None
 
+STORAGES = {
+    "default": {
+        "BACKEND": "custom_storages.MediaStorage",
+        "OPTIONS": {
+            "location": "media",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "custom_storages.StaticStorage",
+        "OPTIONS": {
+            "location": "static",
+        },
+    },
+}
+
+# Static and media files
+STATICFILES_LOCATION = "static"
+MEDIAFILES_LOCATION = "media"
+
 if os.environ["USE_AWS"] == "True":
     # Cache control
     AWS_S3_OBJECT_PARAMETERS = {
@@ -234,12 +253,6 @@ if os.environ["USE_AWS"] == "True":
         AWS_S3_BUILD_DOMAIN = (
             f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
         )
-
-    # Static and media files
-    STATICFILES_STORAGE = "custom_storages.StaticStorage"
-    STATICFILES_LOCATION = "static"
-    DEFAULT_FILE_STORAGE = "custom_storages.MediaStorage"
-    MEDIAFILES_LOCATION = "media"
 
     # Use CloudFront URL or AWS3 for Static and Media files
     if AWS_CLOUD_FRONT and AWS_CLOUD_FRONT != "False":
