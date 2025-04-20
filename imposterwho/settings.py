@@ -33,7 +33,6 @@ IN_DEVELOPMENT = os.environ.get("IN_DEVELOPMENT", "False").strip().lower() == "t
 DEBUG = IN_DEVELOPMENT
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-
 ALLOWED_HOSTS = []
 
 # Deployment
@@ -71,6 +70,7 @@ INSTALLED_APPS = [
     # apps
     "admin_dashboard",
     "homepage",
+    "game",
 ]
 
 
