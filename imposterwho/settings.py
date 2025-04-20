@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "quiz_play",
     "homepage",
     "game",
+    "chat",
 ]
 
 

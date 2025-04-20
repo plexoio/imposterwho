@@ -5,9 +5,12 @@ body{
 main, .container {
     position: relative;
     z-index: 1; /* fondo */
-    pointer-events: none;
 }
 
 .bg-footer{
     background-color: #e84393;
+}
+
+.pointer {
+    cursor: pointer !important;
 }
