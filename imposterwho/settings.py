@@ -208,26 +208,28 @@ AWS_STORAGE_BUCKET_NAME = None
 AWS_CLOUD_FRONT = None
 AWS_S3_REGION_NAME = None
 
-STORAGES = {
-    "default": {
-        "BACKEND": "custom_storages.MediaStorage",
-        "OPTIONS": {
-            "location": "media",
-        },
-    },
-    "staticfiles": {
-        "BACKEND": "custom_storages.StaticStorage",
-        "OPTIONS": {
-            "location": "static",
-        },
-    },
-}
+USE_AWS = os.environ.get("USE_AWS", "False") == "True"
 
-# Static and media files
-STATICFILES_LOCATION = "static"
-MEDIAFILES_LOCATION = "media"
+if USE_AWS:
+    STORAGES = {
+        "default": {
+            "BACKEND": "custom_storages.MediaStorage",
+            "OPTIONS": {
+                "location": "media",
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "custom_storages.StaticStorage",
+            "OPTIONS": {
+                "location": "static",
+            },
+        },
+    }
 
-if os.environ["USE_AWS"] == "True":
+    # Static and media files
+    STATICFILES_LOCATION = "static"
+    MEDIAFILES_LOCATION = "media"
+
     # Cache control
     AWS_S3_OBJECT_PARAMETERS = {
         "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
