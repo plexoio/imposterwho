@@ -1,3 +1,4 @@
+// AI generated
 function dragMoveListener(event) {
     const target = event.target;
     const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
@@ -11,58 +12,78 @@ function dragMoveListener(event) {
     target.setAttribute('data-y', y);
 }
 
+// Get the position of the dropzone and update dynamically
+let prefixRect;
+
+function updateDropzoneRect() {
+    const prefixDropzone = document.getElementById("outer-dropzone");
+    prefixRect = prefixDropzone.getBoundingClientRect();
+    }
+
+// initial calculation of the dropzone position
+updateDropzoneRect();
+
+// event listener for screen resize/rotate
+window.addEventListener('resize', updateDropzoneRect);
+window.addEventListener('orientationchange', updateDropzoneRect);
+
 // enable draggables to be dropped into this
 interact('.dropzone').dropzone({
-    // Accept both #yes-drop and #no-drop
     accept: '#yes-drop, #no-drop',
     overlap: 0.75,
 
-    // listen for drop related events:
-
     ondropactivate: function (event) {
-        // add active dropzone feedback
         event.target.classList.add('drop-active');
     },
     ondragenter: function (event) {
-        var draggableElement = event.relatedTarget
-        var dropzoneElement = event.target
+        const draggableElement = event.relatedTarget;
+        const dropzoneElement = event.target;
 
-        // feedback the possibility of a drop
-        dropzoneElement.classList.add('drop-target')
-        draggableElement.classList.add('can-drop')
-        draggableElement.textContent = 'Dragged in'
+        dropzoneElement.classList.add('drop-target');
+        draggableElement.classList.add('can-drop');
+        draggableElement.textContent = 'Dragged in';
     },
     ondragleave: function (event) {
-        // remove the drop feedback style
-        event.target.classList.remove('drop-target')
-        event.relatedTarget.classList.remove('can-drop')
-        event.relatedTarget.textContent = 'Dragged out'
+        event.target.classList.remove('drop-target');
+        event.relatedTarget.classList.remove('can-drop');
+        event.relatedTarget.textContent = 'Dragged out';
     },
     ondrop: function (event) {
-        event.relatedTarget.textContent = 'Dropped'
+        event.relatedTarget.textContent = 'Dropped';
     },
     ondropdeactivate: function (event) {
-        // remove active dropzone feedback
-        event.target.classList.remove('drop-active')
-        event.target.classList.remove('drop-target')
+        event.target.classList.remove('drop-active');
+        event.target.classList.remove('drop-target');
     }
-})
+});
 
+// interact.js drag and drop example code
+// https://interactjs.io/  Drag and Drop
 interact('.drag-drop')
     .draggable({
         inertia: true,
         modifiers: [
+            // interact.js targets snap function
+            // https://interactjs.io/docs/snapping/#targets-option
             interact.modifiers.snap({
                 targets: [
-                    { x: 500, y: 500, range: 50 },
-                ]
+                    function (x, y, interaction) {
+                        // Dynamically return the updated dropzone position
+                        return {
+                            x: prefixRect.left, // Snap to the dropzone's left position
+                            y: prefixRect.top,  // Snap to the dropzone's top position
+                            range: 50,         // Snapping range
+                        };
+                    },
+                ],
+                // Dynamically calculate the offset to align the draggable's top-left corner
+                // offset: { x: 20, y: 20 },
             }),
             interact.modifiers.restrictRect({
                 restriction: 'parent',
-                endOnly: true
-            })
+                endOnly: true,
+            }),
         ],
         autoScroll: true,
-        // dragMoveListener from the dragging demo above
-        listeners: { move: dragMoveListener }
-    })
+        listeners: { move: dragMoveListener },
+    });
