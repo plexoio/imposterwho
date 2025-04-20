@@ -59,26 +59,23 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    #utilities
+    # utilities
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-
     "django_summernote",
-    'crispy_forms',
-    'crispy_bootstrap5',
-
+    "crispy_forms",
+    "crispy_bootstrap5",
     # apps
     "admin_dashboard",
     "homepage",
-
 ]
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -98,7 +95,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "templates",
-            ],
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -114,7 +111,7 @@ WSGI_APPLICATION = "imposterwho.wsgi.application"
 
 # Authentication
 
-AUTH_USER_MODEL = 'homepage.UserProfile'
+AUTH_USER_MODEL = "homepage.UserProfile"
 
 if DEBUG:
     SITE_ID = 2  # ID for development domain
