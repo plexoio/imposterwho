@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     # apps
     "admin_dashboard",
     "homepage",
+    "game",
 ]
 
 
