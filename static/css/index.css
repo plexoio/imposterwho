@@ -1,0 +1,13 @@
+body{
+    background: linear-gradient(to bottom, #8e44ad, #273c75);
+
+}
+main, .container {
+    position: relative;
+    z-index: 1; /* fondo */
+    pointer-events: none;
+}
+
+.bg-footer{
+    background-color: #e84393;
+}
