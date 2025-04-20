@@ -6,10 +6,9 @@ from .models import QuoteType, MotivationalQuote, EmergencyQuiz, QuizQuestion, Q
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = QuoteType
-        fields = ['name', 'slug']
+        fields = ['name']
         labels = {
             'name': 'Nombre de la categoría',
-            'slug': 'Slug (URL)'
         }
     
     def __init__(self, *args, **kwargs):
@@ -19,12 +18,10 @@ class CategoryForm(forms.ModelForm):
         self.helper.layout = Layout(
             Row(
                 Column('name', css_class='form-group col-md-6'),
-                Column('slug', css_class='form-group col-md-6'),
                 css_class='form-row'
             ),
             Submit('submit', 'Guardar', css_class='btn-primary')
         )
-        self.fields['slug'].help_text = 'Identificador único para URLs (solo letras, números, guiones o barras bajas)'
 
 class MotivationalQuoteForm(forms.ModelForm):
     class Meta:

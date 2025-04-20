@@ -37,9 +37,9 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Categoría agregada exitosamente.')
+            messages.success(request, 'Category added successfully.')
         else:
-            messages.error(request, 'Error al agregar la categoría.')
+            messages.error(request, 'Error adding category.')
     return redirect('manager')
 
 @login_required
@@ -49,9 +49,9 @@ def edit_category(request, category_id):
         form = CategoryForm(request.POST, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Categoría actualizada exitosamente.')
+            messages.success(request, 'Category updated successfully.')
         else:
-            messages.error(request, 'Error al actualizar la categoría.')
+            messages.error(request, 'Error updating category.')
     return redirect('manager')
 
 # @login_required
@@ -68,9 +68,9 @@ def add_quote(request):
         form = MotivationalQuoteForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Cita motivacional agregada exitosamente.')
+            messages.success(request, 'Motivational quote successfully added.')
         else:
-            messages.error(request, 'Error al agregar la cita motivacional.')
+            messages.error(request, 'Error adding motivational quote.')
     return redirect('manager')
 
 @login_required
@@ -80,9 +80,9 @@ def edit_quote(request, quote_id):
         form = MotivationalQuoteForm(request.POST, instance=quote)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Cita motivacional actualizada exitosamente.')
+            messages.success(request, 'Motivational quote successfully updated.')
         else:
-            messages.error(request, 'Error al actualizar la cita motivacional.')
+            messages.error(request, 'Error updating motivational quote.')
     return redirect('manager')
 
 # @login_required
@@ -99,9 +99,9 @@ def add_quiz(request):
         form = EmergencyQuizForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Quiz de emergencia agregado exitosamente.')
+            messages.success(request, 'Emergency quiz added successfully.')
         else:
-            messages.error(request, 'Error al agregar el quiz de emergencia.')
+            messages.error(request, 'Error adding emergency quiz.')
     return redirect('manager')
 
 @login_required
@@ -111,9 +111,9 @@ def edit_quiz(request, quiz_id):
         form = EmergencyQuizForm(request.POST, instance=quiz)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Quiz de emergencia actualizado exitosamente.')
+            messages.success(request, 'Emergency quiz successfully updated.')
         else:
-            messages.error(request, 'Error al actualizar el quiz de emergencia.')
+            messages.error(request, 'Error updating emergency quiz.')
     return redirect('manager')
 
 # @login_required
@@ -138,9 +138,9 @@ def manage_quiz_questions(request, quiz_id):
                 question = question_form.save(commit=False)
                 question.quiz = quiz
                 question.save()
-                messages.success(request, 'Pregunta agregada exitosamente.')
+                messages.success(request, 'Question added successfully.')
             else:
-                messages.error(request, 'Error al agregar la pregunta.')
+                messages.error(request, 'Error adding question.')
         
         elif action == 'edit_question':
             question_id = request.POST.get('question_id')
@@ -148,9 +148,9 @@ def manage_quiz_questions(request, quiz_id):
             question_form = QuizQuestionForm(request.POST, instance=question)
             if question_form.is_valid():
                 question_form.save()
-                messages.success(request, 'Pregunta actualizada exitosamente.')
+                messages.success(request, 'Question updated successfully.')
             else:
-                messages.error(request, 'Error al actualizar la pregunta.')
+                messages.error(request, 'Error updating question.')
         
         return redirect('manage_quiz_questions', quiz_id=quiz_id)
     
@@ -168,7 +168,7 @@ def delete_question(request, question_id):
         question = get_object_or_404(QuizQuestion, id=question_id)
         quiz_id = question.quiz.id
         question.delete()
-        messages.success(request, 'Pregunta eliminada exitosamente.')
+        messages.success(request, 'Question successfully deleted.')
     return redirect('manage_quiz_questions', quiz_id=quiz_id)
 
 @login_required
@@ -185,9 +185,9 @@ def manage_question_answers(request, question_id):
                 answer = answer_form.save(commit=False)
                 answer.question = question
                 answer.save()
-                messages.success(request, 'Respuesta agregada exitosamente.')
+                messages.success(request, 'Answer added successfully.')
             else:
-                messages.error(request, 'Error al agregar la respuesta.')
+                messages.error(request, 'Error adding answer.')
         
         elif action == 'edit_answer':
             answer_id = request.POST.get('answer_id')
@@ -195,17 +195,17 @@ def manage_question_answers(request, question_id):
             answer_form = QuizAnswerForm(request.POST, instance=answer)
             if answer_form.is_valid():
                 answer_form.save()
-                messages.success(request, 'Respuesta actualizada exitosamente.')
+                messages.success(request, 'Response updated successfully.')
             else:
-                messages.error(request, 'Error al actualizar la respuesta.')
+                messages.error(request, 'Error updating response.')
         
         elif action == 'save_answers':
             formset = QuizAnswerInlineFormSet(request.POST, instance=question)
             if formset.is_valid():
                 formset.save()
-                messages.success(request, 'Respuestas actualizadas exitosamente.')
+                messages.success(request, 'Answers updated successfully.')
             else:
-                messages.error(request, 'Error al actualizar las respuestas.')
+                messages.error(request, 'Error updating responses.')
         
         return redirect('manage_question_answers', question_id=question_id)
     
@@ -225,7 +225,7 @@ def delete_answer(request, answer_id):
         answer = get_object_or_404(QuizAnswer, id=answer_id)
         question_id = answer.question.id
         answer.delete()
-        messages.success(request, 'Respuesta eliminada exitosamente.')
+        messages.success(request, 'Reply successfully deleted.')
     return redirect('manage_question_answers', question_id=question_id)
 
 @login_required
@@ -240,7 +240,7 @@ def delete_object(request, type, pk):
         if model:
             obj = get_object_or_404(model, pk=pk)
             obj.delete()
-            messages.success(request, f'{type.capitalize()} eliminado correctamente.')
+            messages.success(request, f'{type.capitalize()} successfully deleted.')
         else:
-            messages.error(request, 'Tipo no válido.')
+            messages.error(request, 'Invalid type.')
     return redirect('manager')

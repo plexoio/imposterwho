@@ -9,7 +9,7 @@
           </button>
         </div>
         <div class="p-3"> 
-          <form method="post" action="{% url 'add_category' %}">
+          <form method="POST" action="{% url 'add_category' %}">
               {% csrf_token %}
               {{ category_form|crispy}}
               <div class="modal-footer">
