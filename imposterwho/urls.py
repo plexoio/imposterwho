@@ -22,4 +22,7 @@ urlpatterns = [
     path('manager/', include('admin_dashboard.urls')),
     path("accounts/", include("allauth.urls")),
     path('', include('homepage.urls'), name='home'), 
+    path("user/", include("user_dashboard.urls")),
+    path('quizzes/', include('quiz_play.urls')),
+
 ]
