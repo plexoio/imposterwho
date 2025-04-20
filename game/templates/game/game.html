@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Game{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+{% endblock %}
+{% block content %}
+
+<h1>Welcome</h1>
+
+<div id="no-drop" class="drag-drop"> #no-drop </div>
+
+<div id="yes-drop" class="drag-drop"> #yes-drop </div>
+
+<div id="outer-dropzone" class="dropzone">
+  #outer-dropzone
+  <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+<script src="{% static 'js/game.js' %}"></script>
+{% endblock %}

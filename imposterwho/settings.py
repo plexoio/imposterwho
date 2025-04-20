@@ -33,7 +33,6 @@ IN_DEVELOPMENT = os.environ.get("IN_DEVELOPMENT", "False").strip().lower() == "t
 DEBUG = IN_DEVELOPMENT
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-
 ALLOWED_HOSTS = []
 
 # Deployment
@@ -59,28 +58,28 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    #utilities
+    # utilities
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-
     "django_summernote",
-    'crispy_forms',
-    'crispy_bootstrap5',
-
+    "crispy_forms",
+    "crispy_bootstrap5",
+    # AWS3
+    "storages",
     # apps
     "admin_dashboard",
     "user_dashboard",
     'quiz_play',
     "homepage",
-
+    "game",
 ]
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -100,8 +99,8 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "templates",
-            
             ],
+
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -117,7 +116,7 @@ WSGI_APPLICATION = "imposterwho.wsgi.application"
 
 # Authentication
 
-AUTH_USER_MODEL = 'homepage.UserProfile'
+AUTH_USER_MODEL = "homepage.UserProfile"
 
 if DEBUG:
     SITE_ID = 2  # ID for development domain
@@ -206,6 +205,68 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# AWS S3 Integration
+AWS_STORAGE_BUCKET_NAME = None
+AWS_CLOUD_FRONT = None
+AWS_S3_REGION_NAME = None
+
+USE_AWS = os.environ.get("USE_AWS", "False") == "True"
+
+if USE_AWS:
+    STORAGES = {
+        "default": {
+            "BACKEND": "custom_storages.MediaStorage",
+            "OPTIONS": {
+                "location": "media",
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "custom_storages.StaticStorage",
+            "OPTIONS": {
+                "location": "static",
+            },
+        },
+    }
+
+    # Static and media files
+    STATICFILES_LOCATION = "static"
+    MEDIAFILES_LOCATION = "media"
+
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
+        "CacheControl": "max-age=94608000",
+    }
+
+    # Keys
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+    # Bucket Config
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    AWS_CLOUD_FRONT = os.environ.get("AWS_CLOUD_FRONT", "False")
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "False")
+    CLOUDFRONT_BUILD_DOMAIN = f"{AWS_CLOUD_FRONT}.cloudfront.net"
+
+    prep_region = AWS_S3_REGION_NAME.strip().lower()
+    no_region_needed = prep_region in ("false")
+
+    if no_region_needed:
+        AWS_S3_BUILD_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    else:
+        AWS_S3_BUILD_DOMAIN = (
+            f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+        )
+
+    # Use CloudFront URL or AWS3 for Static and Media files
+    if AWS_CLOUD_FRONT and AWS_CLOUD_FRONT != "False":
+        AWS_S3_CUSTOM_DOMAIN = CLOUDFRONT_BUILD_DOMAIN
+        STATIC_URL = f"https://{CLOUDFRONT_BUILD_DOMAIN}/{STATICFILES_LOCATION}/"
+        MEDIA_URL = f"https://{CLOUDFRONT_BUILD_DOMAIN}/{MEDIAFILES_LOCATION}/"
+    else:
+        AWS_S3_CUSTOM_DOMAIN = AWS_S3_BUILD_DOMAIN
+        STATIC_URL = f"https://{AWS_S3_BUILD_DOMAIN}/{STATICFILES_LOCATION}/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

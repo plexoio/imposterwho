@@ -4,12 +4,17 @@ body{
 }
 main, .container {
     position: relative;
+<<<<<<< HEAD
     z-index: 1;
+=======
+    z-index: 1; /* fondo */
+>>>>>>> upstream/main
     pointer-events: none;
 }
 
 .bg-footer{
     background-color: #e84393;
+<<<<<<< HEAD
 }
 
 @media (max-width: 768px) {
@@ -38,3 +43,6 @@ main, .container {
         background-color: #e0de51!important; 
     }
 }
+=======
+}
+>>>>>>> upstream/main
