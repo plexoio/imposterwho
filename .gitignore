@@ -10,3 +10,4 @@ cloudinary_python.txt
 *.sqllite3
 *.pyc
 venv
+django_debug.log
