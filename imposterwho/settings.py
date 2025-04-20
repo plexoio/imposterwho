@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     "django_summernote",
     "crispy_forms",
     "crispy_bootstrap5",
+    # AWS3
+    "storages",
     # apps
     "admin_dashboard",
     "homepage",
@@ -200,6 +202,53 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# AWS S3 Integration
+AWS_STORAGE_BUCKET_NAME = None
+AWS_CLOUD_FRONT = None
+AWS_S3_REGION_NAME = None
+
+if os.environ["USE_AWS"] == "True":
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        "Expires": "Thu, 31 Dec 2099 20:00:00 GMT",
+        "CacheControl": "max-age=94608000",
+    }
+
+    # Keys
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+    # Bucket Config
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    AWS_CLOUD_FRONT = os.environ.get("AWS_CLOUD_FRONT", "False")
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "False")
+    CLOUDFRONT_BUILD_DOMAIN = f"{AWS_CLOUD_FRONT}.cloudfront.net"
+
+    prep_region = AWS_S3_REGION_NAME.strip().lower()
+    no_region_needed = prep_region in ("false")
+
+    if no_region_needed:
+        AWS_S3_BUILD_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    else:
+        AWS_S3_BUILD_DOMAIN = (
+            f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+        )
+
+    # Static and media files
+    STATICFILES_STORAGE = "custom_storages.StaticStorage"
+    STATICFILES_LOCATION = "static"
+    DEFAULT_FILE_STORAGE = "custom_storages.MediaStorage"
+    MEDIAFILES_LOCATION = "media"
+
+    # Use CloudFront URL or AWS3 for Static and Media files
+    if AWS_CLOUD_FRONT and AWS_CLOUD_FRONT != "False":
+        AWS_S3_CUSTOM_DOMAIN = CLOUDFRONT_BUILD_DOMAIN
+        STATIC_URL = f"https://{CLOUDFRONT_BUILD_DOMAIN}/{STATICFILES_LOCATION}/"
+        MEDIA_URL = f"https://{CLOUDFRONT_BUILD_DOMAIN}/{MEDIAFILES_LOCATION}/"
+    else:
+        AWS_S3_CUSTOM_DOMAIN = AWS_S3_BUILD_DOMAIN
+        STATIC_URL = f"https://{AWS_S3_BUILD_DOMAIN}/{STATICFILES_LOCATION}/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
