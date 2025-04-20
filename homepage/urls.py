@@ -15,4 +15,5 @@ from . import role_redirect, views
 
 urlpatterns = [
     path('', views.HomePage.as_view(), name='home'),
+    path('redirect/', role_redirect.UserRoleRedirectView.as_view(), name='role_redirect'),
 ]
