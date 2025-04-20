@@ -240,7 +240,6 @@
 }
 
 @media (max-width: 768px) {
-<<<<<<< HEAD
     #quote-shape {
         transform: scale(0.7);
         left: 50%;
@@ -254,14 +253,7 @@
     #game-shape {
         transform: scale(0.7);
         left: 50%;
-=======
-    #quote-shape,
-    #quiz-shape {
-        transform: scale(0.7);
-        left: 10%;
-        top: auto;
-        bottom: 80px;
->>>>>>> upstream/main
+
     }
 }
 
