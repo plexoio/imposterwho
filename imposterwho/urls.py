@@ -26,6 +26,9 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     path('game/', include('game.urls')),
     path('', include('homepage.urls'), name='home'), 
+    path("user/", include("user_dashboard.urls")),
+    path('quizzes/', include('quiz_play.urls')),
+
 ]
 
 if settings.DEBUG:

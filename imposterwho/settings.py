@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     "storages",
     # apps
     "admin_dashboard",
+    "user_dashboard",
+    'quiz_play',
     "homepage",
     "game",
 ]
@@ -97,7 +99,8 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR / "templates",
-        ],
+            ],
+
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -126,12 +129,12 @@ ACCOUNT_LOGIN_METHODS = {
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",
 ]
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_FIELDS = ["email*", "email2*"]
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = "/account/login/"
 LOGIN_REDIRECT_URL = "role_redirect"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_REDIRECT_URL = "role_redirect"
 
