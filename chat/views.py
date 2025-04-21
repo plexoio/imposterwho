@@ -9,9 +9,12 @@ from admin_dashboard.common_imports import (
     redirect,
     reverse_lazy,
     re,
+    logging,
 )
 
 from together import Together
+
+logger = logging.getLogger(__name__)
 
 
 class AIChatTemplateView(
@@ -81,9 +84,16 @@ class LLMInteractionView(View):
     )
     def post(self, request, *args, **kwargs):
         fb_prompt_message = ""
-        prompt_dropdown = request.POST.get("form_data[promptDropdown]")
-        prompt_text = request.POST.get("form_data[promptText]")
+        prompt_text = request.POST.get("form_data[promptText]", "").strip()
+        prompt_dropdown = request.POST.get("form_data[promptDropdown]", "").strip()
+
         user_prompt = prompt_dropdown + " " + prompt_text
+
+        if not prompt_dropdown and not prompt_text:
+            return JsonResponse(
+                {"status": "error", "message": "Missing input fields."},
+                status=400,
+            )
 
         # System Role
         system_role = """
@@ -93,7 +103,7 @@ class LLMInteractionView(View):
 
         Instructions:
 
-        1. Rewrite the user's message in a positive tone. Make it concise
+        1. Flip the user's message in a positive form and tone. Make it concise
         and direct.
         2. Address the user personally. If applicable, replace generic
         pronouns with direct address (e.g., "you").
@@ -202,6 +212,7 @@ class LLMInteractionView(View):
                 max_tokens=200,
             )
         except Exception as e:
+            logger.error("Unexpected error: %s", str(e))
             return JsonResponse(
                 {
                     "status": "error",
@@ -234,11 +245,13 @@ class LLMInteractionView(View):
                     "- Marcus Aurelius"
                 )
         except json.JSONDecodeError as e:
+            logger.error("Failed to decode JSON: %s", str(e))
             print(f"Failed to decode JSON: {str(e)}")
             flipped = "Something went wrong while processing the response."
             quote = "Please try again later."
 
         except Exception as e:
+            logger.error("Unexpected error: %s", str(e))
             print(f"Unexpected error: {str(e)}")
             flipped = "An unexpected error occurred."
             quote = "Please try again later."
