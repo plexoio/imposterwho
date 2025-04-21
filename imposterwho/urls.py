@@ -29,7 +29,11 @@ urlpatterns = [
     path("user/", include("user_dashboard.urls")),
     path('quizzes/', include('quiz_play.urls')),
     path('llm/', include('chat.urls')),
+<<<<<<< HEAD
+    path('contact/', include('contact_us.urls')),
+=======
     path('support/', include('contact_us.urls')),
+>>>>>>> e98722a1f2c427b9f78f165731958a3491b97b9d
 
 ]
 
