@@ -6,7 +6,7 @@ from .views import AIChatTemplateView, LLMInteractionView
 
 urlpatterns = [
     # Chat Template
-    path("chat/", AIChatTemplateView.as_view(), name="ai_chat"),
+    path("chat/", AIChatTemplateView.as_view(), name="llm_chat_page"),
     # LLM Interaction
-    path("llm/", LLMInteractionView.as_view(), name="llm_interact"),
+    path("post/", LLMInteractionView.as_view(), name="llm_post"),
 ]

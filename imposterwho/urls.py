@@ -28,7 +28,7 @@ urlpatterns = [
     path('', include('homepage.urls'), name='home'), 
     path("user/", include("user_dashboard.urls")),
     path('quizzes/', include('quiz_play.urls')),
-    path('ai/', include('chat.urls')),
+    path('llm/', include('chat.urls')),
     path('contact/', include('contact_us.urls')),
 
 ]

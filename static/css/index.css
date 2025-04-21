@@ -4,45 +4,13 @@ body{
 }
 main, .container {
     position: relative;
-<<<<<<< HEAD
-    z-index: 1;
-=======
     z-index: 1; /* fondo */
->>>>>>> upstream/main
-    pointer-events: none;
 }
 
 .bg-footer{
     background-color: #e84393;
-<<<<<<< HEAD
 }
 
-@media (max-width: 768px) {
-    
-    .navbar-collapse {
-    background-color: rgba(255, 255, 255, 0.8); 
-    border-radius: 15px; 
-    width: 50%; 
-    padding: 30px; 
-    margin-top: 10px;
-    }
-
-
-    .navbar-nav .nav-item.active .nav-link {
-        font-weight: bold;
-        color: #1a4920; 
-    }
-
-
-    .navbar-nav .nav-link {
-        color: black; 
-        transition: color 0.3s ease; 
-    }
-
-    .navbar-nav > ul > li:hover {
-        background-color: #e0de51!important; 
-    }
+.pointer {
+    cursor: pointer !important;
 }
-=======
-}
->>>>>>> upstream/main

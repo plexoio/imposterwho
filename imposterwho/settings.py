@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "homepage",
     "game",
     "contact_us",
+    "chat",
 ]
 
 

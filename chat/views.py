@@ -18,10 +18,10 @@ class AIChatTemplateView(
 ):
     """ """
 
-    template_name = "ai_chat.html"
+    template_name = "chat/llm_chat.html"
 
     @method_decorator(
-        ratelimit(key="ip", rate="10/m", method="GET", block=True),
+        ratelimit(key="ip", rate="100/m", method="GET", block=True),
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
