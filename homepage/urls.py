@@ -11,4 +11,9 @@ urlpatterns = [
         role_redirect.UserRoleRedirectView.as_view(),
         name="role_redirect",
     ),
+    path(
+        "apps/",
+        views.userApps.as_view(),
+        name="user_apps",
+    ),
 ]

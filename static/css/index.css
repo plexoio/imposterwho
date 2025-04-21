@@ -21,3 +21,105 @@ main,
 .z-index-front {
     z-index: 1080;
 }
+
+.bg-primary {
+    background-color: #9B59B6 !important;
+}
+
+.hero-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.cta-btn {
+    padding: 10px 35px 10px 35px;
+    border: 1px solid #34495E;
+    background-color: #00C9B7;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    transition: 0.3s;
+    background-color: #00c9b8b8;
+}
+
+/* Bouncing Shapes */
+.shapes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.clickable-shape {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-align: center;
+}
+
+.green {
+    background-color: #28a745;
+    color: white;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.square {
+    border-radius: 10px;
+}
+
+/* Bouncing Animation */
+@keyframes bounce {
+    0% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(200px, 0); /* Move to the right */
+    }
+    50% {
+        transform: translate(200px, 200px); /* Move down */
+    }
+    75% {
+        transform: translate(0, 200px); /* Move to the left */
+    }
+    100% {
+        transform: translate(0, 0); /* Back to the starting point */
+    }
+}
+
+/* Animation properties for the bouncing shapes */
+#chat-shape {
+    animation: bounce 5s infinite ease-in-out;
+}
+
+#game-shape {
+    animation: bounce 5s infinite ease-in-out 2s; /* Slight delay for the game shape */
+}
+
+/* Make the shapes clickable */
+.shape-chat, .shape-game {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Add hover effect for better UX */
+.clickable-shape:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}

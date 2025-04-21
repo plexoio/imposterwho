@@ -1,9 +1,7 @@
 .chat-centered {
     display: flex;
     align-items: center;
-    /* Vertically center */
     justify-content: center;
-    /* Horizontally center */
     min-height: 100vh;
 }
 
@@ -33,7 +31,8 @@
 }
 
 .overflow-container {
-    max-height: 50vh; /* Set the max height as you like */
+    max-height: 50vh;
+    /* Set the max height as you like */
     overflow-y: auto;
 }
 
