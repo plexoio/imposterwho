@@ -47,28 +47,6 @@
 
 <body class="position-relative text-light" style="min-height: 100vh; overflow-x: hidden;">
 
-    <!-- Background Decorative Shapes -->
-    <div class="area position-fixed w-100 h-75 top-0 start-0 z-n1">
-        <ul class="shapes">
-            <li id="hg-square-2" class="huge red square"></li>
-            <li id="hg-circle-1" class="huge blue circle"></li>
-            <li id="hg-square-1" class="huge pink square"></li>
-            <li id="hg-triangle-2" class="huge blue triangle"></li>
-            <li id="lg-triangle-2" class="large yellow triangle"></li>
-            <li id="lg-square-1" class="large green square"></li>
-            <li id="lg-circle-1" class="large yellow circle"></li>
-            <li id="lg-triangle-1" class="large light-blue triangle"></li>
-            <li id="hg-triangle-1" class="huge red triangle"></li>
-            <li id="md-circle-1" class="medium purple circle"></li>
-            <li id="md-square-1" class="medium orange square"></li>
-            <li id="shape-6"></li>
-            <li id="shape-7"></li>
-            <li id="sm-square-1" class="small light-blue square"></li>
-            <li id="shape-9"></li>
-            <li id="shape-10"></li>
-        </ul>
-    </div>
-
     <!-- Navbar -->
     <nav class="navbar navbar-dark navbar-expand-lg shadow-sm fixed-top w-100 z-1030">
         <div class="container-fluid">
@@ -104,7 +82,6 @@
         </div>
     </nav>
 
-
     <!-- Content -->
     <main class="container py-5 mt-3 {% if request.resolver_match.url_name == 'llm_chat_page' %}chat-centered{% endif %}">
         {% if messages %}
@@ -122,25 +99,6 @@
         </div>
         {% endfor %}
         {% endif %}
-        {% if request.resolver_match.url_name == 'home' and request.resolver_match.url_name != 'user_dashboard' %}
-        <div>
-            <ul class="shapes">
-                <li id="quote-shape" class="large purple square clickable-shape">
-                    <a href="/quotes" class="shape-link">Quotes</a>
-                </li>
-                <li id="quiz-shape" class="large green circle clickable-shape">
-
-                    <a href="{% url 'quiz_list' %}" class="shape-link">Quiz</a>
-                </li>
-                <li id="game-shape" class="large green square clickable-shape">
-                    <a href="/quiz" class="shape-link-game">Games</a>
-                </li>
-                <!-- Otras figuras -->
-            </ul>
-        </div>
-
-        {% endif %}
-
 
         {% block content %}
         {% endblock %}
