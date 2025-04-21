@@ -29,16 +29,16 @@ The goal of this README is to provide a clear and concise overview of **Imposter
 
 | Aspect         | Description |
 | -------------- | ----------- |
-| **Problem Statement** | Users often struggle to stay motivated and engaged with traditional learning or productivity tools, which can feel monotonous. |
-| **Objective(s)** | 1. Provide a fun and motivating game experience.<br>2. Offer an interactive LLM chat for personal growth.<br>3. Help users stay motivated through dynamic and engaging content.<br>4. Create an integrated space where learning, games, and motivation come together. |
-| **Target Audience** | Individuals seeking motivation, improvement, or entertainment through interactive experiences. Gamers, productivity enthusiasts, and those interested in AI-powered interaction will benefit from ImposterWho. |
-| **Benefits** | 1. **Engagement**: A combination of games and motivational content keeps users motivated.<br>2. **Personal Growth**: The LLM chat fosters learning and development.<br>3. **Interactive Experience**: Users can interact with games and AI to stay engaged and motivated.<br>4. **Accessible Anytime**: Responsive design allows users to access the app on any device at any time. |
+| **Problem Statement** | Many individuals silently struggle with imposter syndrome, feeling unworthy of their accomplishments and lacking motivation. Traditional self-help tools can feel impersonal or uninspiring. |
+| **Objective(s)** | 1. Empower users to overcome imposter syndrome through fun, positive reinforcement.<br>2. Provide a safe space for self-reflection via an interactive LLM-powered chat.<br>3. Boost user confidence through gamified challenges and achievements.<br>4. Combine motivation, learning, and play in a unified, uplifting experience. |
+| **Target Audience** | Anyone feeling stuck, self-doubting, or overwhelmed—especially students, young professionals, creatives, and tech learners. Perfect for those who want motivation through interaction, not lectures. |
+| **Benefits** | 1. **Empowerment**: Reinforces users' sense of self-worth through play and personalized interaction.<br>2. **Personal Growth**: Encourages introspection and learning in a supportive format.<br>3. **Fun & Purposeful**: Engaging tools keep motivation high while tackling serious emotional blocks.<br>4. **Always There**: Responsive and accessible anytime users need a boost of belief. |
 
 ## 🌟 **Credits**
 
 - **Bootstrap** – For the responsive and sleek front-end framework that helped bring our UI to life.  
 - **Together AI** – For enabling seamless access to a wide range of cutting-edge LLMs.  
-- **ChatGPT** – For assisting in crafting a dynamic assistant prompt capable of interacting with over 200 LLM models.  
+- **ChatGPT** – For helping us refine the assistant's prompt to pass for Together AI, which interacts with over 200 LLM models.  
 - **The ImposterWho Team** – Huge thanks to every team member for their dedication, creativity, and incredible teamwork in making this happen under a tight deadline!
 
 ---
