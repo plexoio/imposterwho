@@ -50,35 +50,41 @@ updateDropzoneRect();
 window.addEventListener('resize', updateDropzoneRect);
 window.addEventListener('orientationchange', updateDropzoneRect);
 
-// enable draggables to be dropped into this
-interact('.dropzone').dropzone({
-    accept: '#prefix-1-drag, #suffix-1-drag',
-    overlap: 0.75,
+// Function to setup dropzones
+function setupDropzone(dropzoneId, draggableClass) {
+    interact(`#${dropzoneId}`).dropzone({
+        accept: `.${draggableClass}`,
+        overlap: 0.75,
 
-    ondropactivate: function (event) {
-        event.target.classList.add('drop-active');
-    },
-    ondragenter: function (event) {
-        const draggableElement = event.relatedTarget;
-        const dropzoneElement = event.target;
+        ondropactivate: function (event) {
+            event.target.classList.add('drop-active');
+        },
+        ondragenter: function (event) {
+            const draggableElement = event.relatedTarget;
+            const dropzoneElement = event.target;
 
-        dropzoneElement.classList.add('drop-target');
-        draggableElement.classList.add('can-drop');
-        // draggableElement.textContent = 'Dragged in';
-    },
-    ondragleave: function (event) {
-        event.target.classList.remove('drop-target');
-        event.relatedTarget.classList.remove('can-drop');
-        // event.relatedTarget.textContent = 'Dragged out';
-    },
-    ondrop: function (event) {
-        // event.relatedTarget.textContent = 'Dropped';
-    },
-    ondropdeactivate: function (event) {
-        event.target.classList.remove('drop-active');
-        event.target.classList.remove('drop-target');
-    }
-});
+            dropzoneElement.classList.add('drop-target');
+            draggableElement.classList.add('can-drop');
+            // draggableElement.textContent = 'Dragged in';
+        },
+        ondragleave: function (event) {
+            event.target.classList.remove('drop-target');
+            event.relatedTarget.classList.remove('can-drop');
+            // event.relatedTarget.textContent = 'Dragged out';
+        },
+        ondrop: function (event) {
+            // Handle drop logic here
+        },
+        ondropdeactivate: function (event) {
+            event.target.classList.remove('drop-active');
+            event.target.classList.remove('drop-target');
+        }
+    });
+}
+
+// Call the function for both prefix and suffix dropzones
+setupDropzone('prefix-dropzone', 'prefix');
+setupDropzone('suffix-dropzone', 'suffix');
 
 // interact.js drag and drop example code
 // https://interactjs.io/  Drag and Drop

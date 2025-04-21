@@ -1,15 +1,17 @@
-#prefix-dropzone, #suffix-dropzone {
-    height: 140px;
+h1, p {
+    text-align: center;
 }
 
 .dropzone {
     background-color: #bfe4ff;
     border: dashed 4px transparent;
     border-radius: 4px;
-    margin: 10px auto 30px;
+    margin: 0px 5px;
     padding: 10px;
     width: 40%;
     transition: background-color 0.3s;
+    height: 140px;
+    max-width: 200px;
 }
 
 .drop-active {
@@ -25,8 +27,12 @@
 .drag-drop {
     /* Ensures the draggable element can recieve pointer events */
     pointer-events: auto;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-width: 40px;
+    max-width: 80px;
+    height: 50px;
     padding: 2em 0.5em;
     margin: 1rem 0 0 1rem;
 
