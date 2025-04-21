@@ -21,7 +21,7 @@ With the perfect balance of motivation and entertainment, this app will help you
 
 ### 📚 Documentation (MODERN)
 
-[![ImposterWho Documentation](https://img.shields.io/badge/View-Plexohub_Documentation-blue)](https://plexoio.github.io/imposterwho/) 
+[![ImposterWho Documentation](https://img.shields.io/badge/View-ImposterWho_Documentation-blue)](https://plexoio.github.io/imposterwho/) 
 
 ### 🎯 **Goal**
 
