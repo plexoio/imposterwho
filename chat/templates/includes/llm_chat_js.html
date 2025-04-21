@@ -1,0 +1,105 @@
+{% load i18n %}
+{% load static %}
+<script>
+    $(document).ready(function () {
+        // LLM Interaction
+        $("#sendPrompt").click(function (event) {
+            event.preventDefault();
+            const submitButton = $(this);
+
+            // Variables
+            let promptWindow = $("#promptWindow");
+            const submitIcon = $("#submitIcon");
+            const submitToken = $('#sendPrompt').data('token');
+            const sendPromptAlert = $('#sendPromptAlert');
+
+            // Disabled
+            submitButton.prop('disabled', true);
+            $("#sendPrompt").addClass('disabled');
+
+            // Data
+            const promptDropdown = $("#promptDropdown option:selected").text();
+            const promptText = $("#promptText").val();
+
+            // Interaction
+            if (promptDropdown === undefined || promptText === undefined) {
+                sendPromptAlert.text("{% trans 'You must submit some data' %}");
+                submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+                submitButton.prop('disabled', false);
+            } else {
+                sendPromptAlert.text("");
+                submitIcon.html('<i class="fa-solid fa-spinner" id="spinner"></i>');
+
+                let form_data;
+                form_data = {
+                    promptDropdown: promptDropdown,
+                    promptText: promptText,
+                };
+
+                $.ajax({
+                    url: `/llm/post/`,
+                    method: 'POST',
+                    data: {
+                        form_data: form_data,
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function (json) {
+                        if (json.status === 'success') {
+
+                            // System Logo
+                            const imgElement = document.createElement('img');
+                            imgElement.src = "{% static 'img/logo.png' %}";
+                            imgElement.alt = "site's logo";
+                            imgElement.width = 50;
+                            imgElement.height = 50;
+
+                            const flipped = json.flipped;
+                            const quote = json.quote;
+
+                            // HTML to Append
+                            let response = `<div class="border p-2 rounded border-color-chat mt-3">
+                                            <div class="row align-items-center my-2">
+                                                <div class="col-auto image-container">
+                                                </div>
+                                                <div class="col">
+                                                    <p class="mb-0 fw-bold text-color-chat">
+                                                    ${flipped}
+                                                    </p>
+                                                </div>
+                                                <blockquote class="fst-italic pb-0 pt-3 text-center px-4 m-0">
+                                                    ${quote}
+                                                </blockquote>
+                                            </div>
+                                        </div>`;
+
+                            let $response = $(response); // JQuery Object
+                            $response.find(".image-container").append(imgElement);
+                            promptWindow.append($response);
+
+                            // Scroll
+                            promptWindow.scrollTop(promptWindow[0].scrollHeight);
+
+                            setTimeout(function () {
+                                submitButton.prop('disabled', false);
+                                $("#sendPrompt").removeClass('disabled');
+                                submitIcon.html('<i class="fa-solid fa-paper-plane text-white" id="submitIcon"></i>');
+                            }, 3000);
+                        } else {
+                            submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+                            sendPromptAlert.text(`${json.message}`);
+                            console.log(json.message);
+                            submitButton.prop('disabled', false);
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+                        sendPromptAlert.text(`${err}`);
+                        console.log(`Status Code: ${xhr.status}`);
+                        console.log(`Status Text: ${errmsg}`);
+                        console.log(`Error Thrown: ${err}`);
+                    }
+                });
+            }
+        });
+    });
+</script>

@@ -11,7 +11,7 @@
     border-radius: 15px;
 }
 
-.title-color-chat {
+.text-color-chat {
     color: #9B59B6;
 }
 
@@ -30,4 +30,18 @@
 
 .body-chat {
     height: 50vh;
+}
+
+.overflow-container {
+    max-height: 50vh; /* Set the max height as you like */
+    overflow-y: auto;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.intro-text {
+    opacity: 0.5;
 }

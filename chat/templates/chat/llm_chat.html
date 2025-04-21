@@ -13,33 +13,42 @@
                 {% csrf_token %}
                 <!-- Header -->
                 <div class="card-header text-center border-color-chat">
-                    <h5 class="m-0 fw-bold">
-                        Hello, <span class="title-color-chat">User!</span>
+                    <h5 class="m-0 fw-bold py-2">
+                        Hello, <span class="text-color-chat">User!</span>
                     </h5>
                 </div>
+
                 <!-- Body -->
-                <div class="card-body body-chat">
-                    <div class="border p-2 rounded border-color-chat">
-                        hola
+                <div class="card-body body-chat overflow-container" id="promptWindow">
+                    <div class="p-2">
+                        <div class="row align-items-center my-2">
+                            <div class="col">
+                                <p class="mb-0 fst-italic text-center intro-text">
+                                    Resolve your inner doubts right here.
+                                    What you'll uncover will truly surprise you!                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
                 <!-- Footer -->
                 <div class="card-footer border-color-chat">
                     <div class="my-3">
                         <div class="d-flex gap-2 align-items-center">
-                            <select name="category" class="form-select w-auto border-color-chat" id="id_category">
+                            <select name="promptDropdown" class="form-select w-auto border-color-chat" id="promptDropdown">
                                 <option value="">Choose</option>
                                 <option value="can_not">I can't</option>
                                 <option value="will_not">I won't</option>
                                 <option value="do_not">I don't</option>
                                 <option value="am_not">I ain't</option>
                             </select>
-                        
-                            <input type="text" name="prompt" class="form-control border-color-chat" placeholder="Enter your thought...">
-                            <div class="d-flex justify-content-center align-items-center round-send-chat pointer">
-                                <i class="fa-solid fa-paper-plane text-white"></i>
-                            </div>
-                        </div>                        
+
+                            <input type="text" name="prompt" class="form-control border-color-chat"
+                                placeholder="Enter your thought..." id="promptText">
+                            <button class="d-flex justify-content-center align-items-center round-send-chat pointer" id="sendPrompt">
+                                <i class="fa-solid fa-paper-plane text-white" id="submitIcon"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -47,4 +56,5 @@
     </div>
 
 </section>
+{% include 'includes/llm_chat_js.html' %}
 {% endblock content %}

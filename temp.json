@@ -1,29 +1,26 @@
 {
-    "status": "success",
-    "message": {
-      "id": "nqtV7SZ-zqrih-933732bba820288f",
-      "object": "chat.completion",
-      "created": 1745178915,
-      "model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
-      "choices": [
-        {
-          "index": 0,
-          "logprobs": null,
-          "seed": null,
-          "finish_reason": "stop",
-          "message": {
-            "role": "assistant",
-            "content": "You can bake a cake! \n\"You alone are enough. You have nothing to prove to anyone.\" - Maya Angelou",
-            "tool_calls": []
-          }
-        }
-      ],
-      "prompt": [],
-      "usage": {
-        "prompt_tokens": 69,
-        "completion_tokens": 25,
-        "total_tokens": 94
+  "status": "success",
+  "message": {
+    "id": "nqtV7SZ-zqrih-933732bba820288f",
+    "object": "chat.completion",
+    "created": 1745178915,
+    "model": "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8",
+    "choices": [{
+      "index": 0,
+      "logprobs": null,
+      "seed": null,
+      "finish_reason": "stop",
+      "message": {
+        "role": "assistant",
+        "content": "You can bake a cake! \n\"You alone are enough. You have nothing to prove to anyone.\" - Maya Angelou",
+        "tool_calls": []
       }
+    }],
+    "prompt": [],
+    "usage": {
+      "prompt_tokens": 69,
+      "completion_tokens": 25,
+      "total_tokens": 94
     }
   }
-  
+}
