@@ -1,9 +1,5 @@
-#outer-dropzone {
+#prefix-dropzone, #suffix-dropzone {
     height: 140px;
-}
-
-#inner-dropzone {
-    height: 80px;
 }
 
 .dropzone {
@@ -12,7 +8,7 @@
     border-radius: 4px;
     margin: 10px auto 30px;
     padding: 10px;
-    width: 80%;
+    width: 40%;
     transition: background-color 0.3s;
 }
 

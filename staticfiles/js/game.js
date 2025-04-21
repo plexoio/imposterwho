@@ -14,11 +14,34 @@ function dragMoveListener(event) {
 
 // Get the position of the dropzone and update dynamically
 let prefixRect;
+let suffixRect;
+let prefixCenter;
+let suffixCenter;
 
+// Gets the positions of the dropzones
 function updateDropzoneRect() {
-    const prefixDropzone = document.getElementById("outer-dropzone");
+    const prefixDropzone = document.getElementById("prefix-dropzone");
     prefixRect = prefixDropzone.getBoundingClientRect();
-    }
+
+    const suffixDropzone = document.getElementById("suffix-dropzone");
+    suffixRect = suffixDropzone.getBoundingClientRect();
+
+    // Update the center positions of the dropzones
+    updateDropzoneCenter();
+}
+
+// Calculates the center of the dropzones for snapping position
+function updateDropzoneCenter() {
+    prefixCenter = {
+        x: prefixRect.left + prefixRect.width / 2,
+        y: prefixRect.top + prefixRect.height / 2,
+    };
+
+    suffixCenter = {
+        x: suffixRect.left + suffixRect.width / 2,
+        y: suffixRect.top + suffixRect.height / 2,
+    };
+}
 
 // initial calculation of the dropzone position
 updateDropzoneRect();
@@ -29,7 +52,7 @@ window.addEventListener('orientationchange', updateDropzoneRect);
 
 // enable draggables to be dropped into this
 interact('.dropzone').dropzone({
-    accept: '#yes-drop, #no-drop',
+    accept: '#prefix-1-drag, #suffix-1-drag',
     overlap: 0.75,
 
     ondropactivate: function (event) {
@@ -41,15 +64,15 @@ interact('.dropzone').dropzone({
 
         dropzoneElement.classList.add('drop-target');
         draggableElement.classList.add('can-drop');
-        draggableElement.textContent = 'Dragged in';
+        // draggableElement.textContent = 'Dragged in';
     },
     ondragleave: function (event) {
         event.target.classList.remove('drop-target');
         event.relatedTarget.classList.remove('can-drop');
-        event.relatedTarget.textContent = 'Dragged out';
+        // event.relatedTarget.textContent = 'Dragged out';
     },
     ondrop: function (event) {
-        event.relatedTarget.textContent = 'Dropped';
+        // event.relatedTarget.textContent = 'Dropped';
     },
     ondropdeactivate: function (event) {
         event.target.classList.remove('drop-active');
@@ -67,22 +90,31 @@ interact('.drag-drop')
             // https://interactjs.io/docs/snapping/#targets-option
             interact.modifiers.snap({
                 targets: [
+                    // prefix snapping to dropzone center
                     function (x, y, interaction) {
                         // Dynamically return the updated dropzone position
                         return {
-                            x: prefixRect.left - interaction.coords.start.pageX, // Snap to the dropzone's left position
-                            y: prefixRect.top - interaction.coords.start.pageY,  // Snap to the dropzone's top position
-                            range: 50,         // Snapping range
+                            x: prefixCenter.x,
+                            y: prefixCenter.y,
+                            range: 50,
+                        };
+                    },
+                    // suffix snapping to dropzone center
+                    function (x, y, interaction) {
+                        return {
+                            x: suffixCenter.x,
+                            y: suffixCenter.y,
+                            range: 50,
                         };
                     },
                 ],
                 // Dynamically calculate the offset to align the draggable's top-left corner
                 // offset: { x: 20, y: 20 },
             }),
-            interact.modifiers.restrictRect({
-                restriction: 'parent',
-                endOnly: true,
-            }),
+            // interact.modifiers.restrictRect({
+            //     restriction: 'parent',
+            //     endOnly: true,
+            // }),
         ],
         autoScroll: true,
         listeners: { move: dragMoveListener },

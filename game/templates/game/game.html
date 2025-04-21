@@ -8,13 +8,12 @@
 
 <h1>Welcome</h1>
 
-<div id="no-drop" class="drag-drop"> #no-drop </div>
+<div id="prefix-1-drag" class="drag-drop"> I am </div>
+<div id="suffix-1-drag" class="drag-drop"> not enough. </div>
 
-<div id="yes-drop" class="drag-drop"> #yes-drop </div>
-
-<div id="outer-dropzone" class="dropzone">
-  #outer-dropzone
-  <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+<div class="d-flex flex-row">
+  <div id="prefix-dropzone" class="dropzone col-6">prefix</div>
+  <div id="suffix-dropzone" class="dropzone col-6">suffix</div>
 </div>
 
 {% endblock %}
