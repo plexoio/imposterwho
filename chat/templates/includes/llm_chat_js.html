@@ -1,0 +1,76 @@
+{% load i18n %}
+{% load static %}
+<script>
+    $(document).ready(function () {
+
+        // System Response Logo
+        const imgElement = document.createElement('img');
+        imgElement.src = "{% static 'img/logo.png' %}";
+        imgElement.alt = "site's logo";
+        imgElement.width = 50;
+        imgElement.height = 50;
+        
+        // LLM Interaction
+        $("#sendPrompt").click(function (event) {
+            event.preventDefault();
+            const submitButton = $(this);
+            submitButton.prop('disabled', true);
+            
+            // Variables
+            let promptWindow = $("#promptWindow");
+            const submitIcon = $("#submitIcon");
+            const submitToken = $('#sendPrompt').data('token');
+            const sendPromptAlert = $('#sendPromptAlert');
+
+            // Data
+            const promptDropdown = $("#promptDropdown option:selected").text();
+            const promptText = $("#promptText").val();
+            
+            // Interaction
+            if (promptDropdown === undefined || promptText === undefined) {
+                sendPromptAlert.text("{% trans 'You must submit some data' %}");
+                submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+            } else {
+                sendPromptAlert.text("");
+                submitIcon.html('<i class="fa-solid fa-spinner" id="spinner"></i>');
+
+                let form_data;
+                form_data = {
+                    promptDropdown: promptDropdown,
+                    promptText: promptText,
+                };
+
+                $.ajax({
+                    url: `/llm/post/`,
+                    method: 'POST',
+                    data: {
+                        form_data: form_data,
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                    },
+                    success: function (json) {
+                        if (json.status === 'success') {
+                            // Receive & Parse LLM Response
+                            let parsed = $.parseHTML(json.message)
+                            promptWindow.append(parsed)
+
+                            // Elements
+                            $(".image-container").append(imgElement)
+                            submitIcon.html('<i class="fa-solid fa-paper-plane text-white" id="submitIcon"></i>');
+                        } else {
+                            submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+                            sendPromptAlert.text(`${json.message}`);
+                            console.log(json.message);
+                        }
+                    },
+                    error: function (xhr, errmsg, err) {
+                        submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
+                        sendPromptAlert.text(`${err}`);
+                        console.log(`Status Code: ${xhr.status}`);
+                        console.log(`Status Text: ${errmsg}`);
+                        console.log(`Error Thrown: ${err}`);
+                    }
+                });
+            };
+        });
+    });
+</script>

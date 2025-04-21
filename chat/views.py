@@ -42,24 +42,47 @@ class LLMInteractionView(View):
         ratelimit(key="ip", rate="10/m", method="POST", block=True),
     )
     def post(self, request, *args, **kwargs):
+        fb_prompt_message = ""
+        prompt_dropdown = request.POST.get("form_data[promptDropdown]")
+        prompt_text = request.POST.get("form_data[promptText]")
+        user_prompt = prompt_dropdown + " " + prompt_text
 
         # System Role
-        system_role = (
-            "Flip the negative part of the sentence to positive, "
-            "and return only the revised, clean sentence. Address the person "
-            "directly, replacing pronouns. "
-            "Provide a motivational quote at the end that has been proven "
-            "to help people facing issues with imposter syndrome."
-        )
+        system_role = """
+        Flip the negative part of the sentence into a positive one, ensuring the response is clean and concise. 
+        Address the person directly, replacing pronouns where necessary. 
+        End the response with a motivational quote proven to help individuals dealing with imposter syndrome. 
+
+        Return the revised sentence and quote exactly as follows, with no additional explanations or context:
+
+        \\"<div class=\\"border p-2 rounded border-color-chat mt-3\\">
+            <div class=\\"row align-items-center my-2\\">
+                <div class=\\"col-auto image-container\\">
+                </div>
+                <div class=\\"col\\">
+                    <p class=\\"mb-0 fw-bold text-color-chat\\">
+                    [Flipped sentence goes here]
+                    </p>
+                </div>
+                <blockquote class=\\"fst-italic pb-0 pt-3 text-center px-4 m-0\\">
+                    \\"[Quote goes here]\\" - [Author goes here]
+                </blockquote>
+            </div>
+        </div>\\"
+
+        Do not add any phrases like \\"Here is the revised response:\\" or \\"was revised to:\\". Just provide the formatted response directly as instructed.
+        Do not repeat the same quotes.
+        The quote has to be related to the prompt.
+        """
 
         # User Prompt
-        test = "{}"
+        user_prompt = {"prompt": user_prompt}
+        json_data = json.dumps(user_prompt)
 
         # Prompt as JSON
-        data = json.loads(test)
-
+        data = json.loads(json_data)
         # Fallback
-        if not data.get("prompt"):
+        if not prompt_text or prompt_text == "":
             # FB Prompt
             fb_prompt = {
                 "Brené Brown",
@@ -95,8 +118,8 @@ class LLMInteractionView(View):
                 "Based on the list authors passed."
             )
 
-        # Fallback Message
-        fb_prompt_message = f"A quote from some of them: {fb_prompt}"
+            # Fallback Message
+            fb_prompt_message = f"A quote from some of them: {fb_prompt}"
 
         # Define User Prompt
         prompt = data.get("prompt", fb_prompt_message)
@@ -123,6 +146,6 @@ class LLMInteractionView(View):
         return JsonResponse(
             {
                 "status": "success",
-                "message": f"{result}!",
+                "message": result,
             }
         )
