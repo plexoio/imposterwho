@@ -51,9 +51,9 @@ window.addEventListener('resize', updateDropzoneRect);
 window.addEventListener('orientationchange', updateDropzoneRect);
 
 // Audio placeholders
-const dragStartAudio = new Audio('drag-start.mp3'); // Replace with actual file
-const dragSnapAudio = new Audio('drag-snap.mp3'); // Replace with actual file
-const dropAudio = new Audio('drop.mp3'); // Replace with actual file
+// const dragStartAudio = new Audio('drag-start.mp3'); // Replace with actual file
+// const dragSnapAudio = new Audio('drag-snap.mp3'); // Replace with actual file
+// const dropAudio = new Audio('drop.mp3'); // Replace with actual file
 
 // Track the current draggable pair in the dropzones
 let currentPrefix = null;
@@ -77,56 +77,12 @@ function updateSubmitButtonState() {
 document.getElementById('submit-button').addEventListener('click', () => {
     if (!currentPrefix || !currentSuffix) return;
 
-    console.log('Submit button clicked');
-
     // Transition the suffix text
-    const suffixTextElement = currentSuffix.querySelector('.drag-text');
-    const suffixText = suffixTextElement.textContent.trim();
-    const positiveText = getPositiveReplacement(suffixText);
+    transitionSuffix(currentSuffix, true);
 
-    // Start fade-out for the negative suffix text
-    suffixTextElement.style.transition = 'opacity 1s';
-    suffixTextElement.style.opacity = '0';
-    console.log('Starting fade-out for suffix text');
-
-    // After 1 second, replace the text and start fade-in
-    setTimeout(() => {
-        suffixTextElement.textContent = positiveText;
-        suffixTextElement.style.opacity = '0'; // Ensure it remains invisible before fade-in
-        suffixTextElement.style.transition = 'opacity 1s';
-        suffixTextElement.style.opacity = '1'; // Start fade-in
-        console.log('Replaced suffix text with positive version and started fade-in');
-
-        // Simultaneously start the background color transition
-        currentPrefix.style.transition = 'background-color 2s';
-        currentSuffix.style.transition = 'background-color 2s';
-        currentPrefix.style.backgroundColor = '#4e4'; // Green
-        currentSuffix.style.backgroundColor = '#4e4'; // Green
-        console.log('Started background color transition');
-    }, 1000);
-
-    // After 2 seconds, reveal the hidden pair
-    setTimeout(() => {
-        const hiddenPair = document.querySelector('.hidden');
-        if (hiddenPair) {
-            hiddenPair.classList.remove('hidden');
-            console.log('Revealed hidden pair');
-        }
-    }, 2000);
-
-    // After 4 seconds, hide the current pair and reset their positions
-    setTimeout(() => {
-        currentPrefix.classList.add('hidden');
-        currentSuffix.classList.add('hidden');
-        console.log('Hid current pair and reset state');
-
-        // Reset the current pair variables
-        currentPrefix = null;
-        currentSuffix = null;
-
-        // Update the submit button state
-        updateSubmitButtonState();
-    }, 4000);
+    // Simultaneously start the background color transition for prefix
+    currentPrefix.style.transition = 'background-color 2s';
+    currentPrefix.style.backgroundColor = '#4e4'; // Green
 });
 
 // Get the positive replacement for a suffix
@@ -139,7 +95,74 @@ function getPositiveReplacement(negativeText) {
     return replacements[negativeText] || negativeText;
 }
 
-// Function to setup dropzones
+// Helper function to get the negative replacement for a suffix
+function getNegativeReplacement(positiveText) {
+    const replacements = {
+        'enough.': 'not enough.',
+        'can do this.': "can't do this.",
+        'will make it.': "won't make it.",
+    };
+    return replacements[positiveText] || positiveText;
+}
+
+// Function to transition suffix text and background color
+function transitionSuffix(suffixElement, isPositive) {
+    const suffixTextElement = suffixElement.querySelector('.drag-text');
+    const suffixText = suffixTextElement.textContent.trim();
+
+    // Determine the new text and background color
+    const newText = isPositive ? getPositiveReplacement(suffixText) : getNegativeReplacement(suffixText);
+    const newBackgroundColor = isPositive ? '#4e4' : '#29e'; // Green for positive, blue for negative
+
+    // Start fade-out for the current suffix text
+    suffixTextElement.style.transition = 'opacity 1s';
+    suffixTextElement.style.opacity = '0';
+
+    // After 1 second, replace the text and start fade-in
+    setTimeout(() => {
+        suffixTextElement.textContent = newText;
+        suffixTextElement.style.opacity = '0'; // Ensure it remains invisible before fade-in
+        suffixTextElement.style.transition = 'opacity 1s';
+        suffixTextElement.style.opacity = '1'; // Start fade-in
+
+        // Simultaneously start the background color transition
+        suffixElement.style.transition = 'background-color 2s';
+        suffixElement.style.backgroundColor = newBackgroundColor;
+    }, 1000);
+}
+
+// Function to reset a draggable element (prefix or suffix) when dragged out of the dropzone
+function resetDraggable(draggableElement, isPrefix) {
+    const textElement = draggableElement.querySelector('.drag-text');
+    const currentText = textElement.textContent.trim();
+
+    // Skip reset if the suffix already has the negative text
+    if (!isPrefix && currentText === getNegativeReplacement(currentText)) {
+        console.log('Suffix already has negative text, skipping reset.');
+        return;
+    }
+
+    // Clear the text instantly for suffix and fade in the negative text
+    if (!isPrefix) {
+        const negativeText = getNegativeReplacement(currentText);
+        textElement.textContent = negativeText;
+        textElement.style.transition = 'opacity 1s';
+        textElement.style.opacity = '0';
+
+        setTimeout(() => {
+            textElement.style.opacity = '1'; // Fade in the negative text
+        }, 0); // No delay for clearing the text
+    }
+
+    // Reset the background color to blue
+    draggableElement.style.transition = 'background-color 2s';
+    draggableElement.style.backgroundColor = '#29e'; // Blue
+
+    // Ensure the draggable can re-trigger dropzone events
+    draggableElement.classList.remove('can-drop'); // Remove any lingering state
+}
+
+// Updated dropzone logic to handle drag-away reset
 function setupDropzone(dropzoneId, draggableClass) {
     interact(`#${dropzoneId}`).dropzone({
         accept: `.${draggableClass}`,
@@ -151,6 +174,10 @@ function setupDropzone(dropzoneId, draggableClass) {
         ondragenter: function (event) {
             const draggableElement = event.relatedTarget;
             const dropzoneElement = event.target;
+
+            // Transition the draggable's background color to green
+            draggableElement.style.transition = 'background-color 2s';
+            draggableElement.style.backgroundColor = '#4e4'; // Green
 
             dropzoneElement.classList.add('drop-target');
             draggableElement.classList.add('can-drop');
@@ -167,12 +194,18 @@ function setupDropzone(dropzoneId, draggableClass) {
             const draggableElement = event.relatedTarget;
             const dropzoneElement = event.target;
 
+            // Transition the draggable's background color back to blue
+            draggableElement.style.transition = 'background-color 2s';
+            draggableElement.style.backgroundColor = '#29e'; // Blue
+
             dropzoneElement.classList.remove('drop-target');
             draggableElement.classList.remove('can-drop');
 
             if (dropzoneId === 'prefix-dropzone') {
+                resetDraggable(draggableElement, true); // Reset prefix
                 currentPrefix = null;
             } else if (dropzoneId === 'suffix-dropzone') {
+                resetDraggable(draggableElement, false); // Reset suffix
                 currentSuffix = null;
             }
 
@@ -220,13 +253,7 @@ interact('.drag-drop')
                         };
                     },
                 ],
-                // Dynamically calculate the offset to align the draggable's top-left corner
-                // offset: { x: 20, y: 20 },
             }),
-            // interact.modifiers.restrictRect({
-            //     restriction: 'parent',
-            //     endOnly: true,
-            // }),
         ],
         autoScroll: true,
         listeners: {
