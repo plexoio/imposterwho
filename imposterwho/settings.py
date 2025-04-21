@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "quiz_play",
     "homepage",
     "game",
+    "contact_us",
 ]
 
 
@@ -80,6 +81,8 @@ INSTALLED_APPS = [
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -346,3 +349,6 @@ LOGGING = {
         },
     },
 }
+
+os.environ["RECAPTCHA_SECRET_KEY"] = "6LckBx8rAAAAAM7eZQTK9XGQAFZUWHpOzH8vfev5"
+os.environ["RECAPTCHA_SITE_KEY"] = "6LckBx8rAAAAAKP0z3s87sLFwjktLaLKwSiq856s"
