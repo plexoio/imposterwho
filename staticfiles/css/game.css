@@ -25,7 +25,7 @@ h1, p {
 }
 
 .drag-drop {
-    /* Ensures the draggable element can recieve pointer events */
+    /* Ensures the draggable element can receive pointer events */
     pointer-events: auto;
     display: flex;
     justify-content: center;
@@ -45,6 +45,9 @@ h1, p {
 
     /* Add transitions for opacity and background color */
     transition: opacity 1s, background-color 2s;
+
+    box-sizing: border-box; /* Include padding and border in dimensions */
+    overflow: hidden; /* Prevent text from overflowing */
 }
 
 .drag-drop.can-drop {
@@ -55,6 +58,10 @@ h1, p {
 .drag-text {
     transition: opacity 1s; /* Apply the fade-out effect to the text */
     display: inline-block; /* Ensure the text behaves as a block for styling */
+text-align: center; /* Center the text inside the box */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Break long words if necessary */
+line-height: 1.2; /* Adjust line height for better spacing */
 }
 
 /* disable homepage buttons when in game */

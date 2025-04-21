@@ -88,7 +88,6 @@ document.getElementById('submit-button').addEventListener('click', () => {
 // Get the positive replacement for a suffix
 function getPositiveReplacement(negativeText) {
     const replacements = {
-        'not enough.': 'enough.',
         "can't do this.": 'can do this.',
         "won't make it.": 'will make it.',
     };
@@ -98,7 +97,6 @@ function getPositiveReplacement(negativeText) {
 // Helper function to get the negative replacement for a suffix
 function getNegativeReplacement(positiveText) {
     const replacements = {
-        'enough.': 'not enough.',
         'can do this.': "can't do this.",
         'will make it.': "won't make it.",
     };
