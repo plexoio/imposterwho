@@ -3,8 +3,8 @@ from admin_dashboard.common_imports import (
     redirect,
     View,
     method_decorator,
+    ratelimit,
 )
-from django_ratelimit.decorators import ratelimit
 
 
 class UserRoleRedirectView(View):

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 bg-light p-4 rounded-end">
+            <h4>Hello, {{ user.username }}</h4>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Registration Date:</strong> {{ user.date_joined }}</p>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-9">
+            <div class="row">
+                <!-- Motivational Quotes Card -->
+                <div class="col-md-6 mb-3">
+                    <div class="card card-motivation">
+                        <div class="card-header">
+                            Motivational Quotes
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                {% for quote in quotes %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 bg-transparent">
+                                        <blockquote>
+                                            "{{ quote.text }}"
+                                            {% if quote.author %}
+                                                - {{ quote.author }}
+                                            {% endif %}
+                                        </blockquote>
+                                        <form method="POST" action="{% url 'add_to_favorites' quote.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-primary">Add to Favorites</button>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favorite Quotes Card -->
+                <div class="col-md-6 mb-3">
+                    <div class="card card-favorites">
+                        <div class="card-header">
+                            Favorite Quotes
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group">
+                                {% for favorite in favorite_quotes %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 bg-transparent">
+                                        <blockquote>
+                                            "{{ favorite.quote.text }}"
+                                            {% if favorite.quote.author %}
+                                                - {{ favorite.quote.author }}
+                                            {% endif %}
+                                        </blockquote>
+                                        <form method="POST" action="{% url 'remove_from_favorites' favorite.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                                        </form>
+                                    </li>
+                                {% empty %}
+                                    <p>You don't have any favorite quotes yet.</p>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Quiz Progress Card -->
+                <div class="col-md-12 mb-3">
+                    <div class="card card-progress">
+                        <div class="card-header">
+                            Quiz Progress
+                        </div>
+                        <div class="card-body">
+                            {% for quiz in completed_quizzes %}
+                                <div class="mb-3">
+                                    <h6>{{ quiz.title }}</h6>
+                                    <p>{{ quiz.description }}</p>
+                                    <p><strong>Score:</strong> {{ quiz_scores|default:"0" }} out of {{ quiz.questions.count }}</p>
+                                </div>
+                            {% empty %}
+                                <p>No quizzes completed yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,23 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Imposter Syndrome Helper{% endblock %}</title>
 
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Fontawesome -->
+    <script src="https://use.fontawesome.com/releases/v6.6.0/js/all.js" crossorigin="anonymous"></script>
 
     <!-- Custom Shapes Background CSS -->
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/shapes.css' %}">
-    
+    {% if request.resolver_match.url_name == 'user_dashboard' %}
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+    {% endif %}
+
     {% block extra_head %}{% endblock %}
 
     <style>
-        html, body {
+        html,
+        body {
             height: 100%;
             margin: 0;
         }
@@ -33,81 +44,50 @@
         }
     </style>
 </head>
+
 <body class="position-relative text-light" style="min-height: 100vh; overflow-x: hidden;">
-
-    <!-- Background Decorative Shapes -->
-    <div class="area position-fixed w-100 h-75 top-0 start-0 z-n1">
-        <ul class="shapes">
-            <li id="hg-square-2" class="huge red square"></li>
-            <li id="hg-circle-1" class="huge blue circle"></li>
-            <li id="hg-square-1" class="huge pink square"></li>
-            <li id="hg-triangle-2" class="huge blue triangle"></li>
-            <li id="lg-triangle-2" class="large yellow triangle"></li>
-            <li id="lg-square-1" class="large green square"></li>
-            <li id="lg-circle-1" class="large yellow circle"></li>
-            <li id="lg-triangle-1" class="large light-blue triangle"></li>
-            <li id="hg-triangle-1" class="huge red triangle"></li>
-            <li id="md-circle-1" class="medium purple circle"></li>
-            <li id="md-square-1" class="medium orange square"></li>
-            <li id="shape-6"></li>
-            <li id="shape-7"></li>
-            <li id="sm-square-1" class="small light-blue square"></li>
-            <li id="shape-9"></li>
-            <li id="shape-10"></li>
-        </ul>
-    </div>
-    
-
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">ImposterWho</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm fixed-top w-100 z-1030">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">ImposterWho</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_logout' %}">Logout</a></li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a></li>
-                    {% endif %}
+                <ul class="navbar-nav text-white">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'llm_chat_page' %}">Chat</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'game' %}">Game</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Content -->
-    <main class="container py-5">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
-        <div>
-            <ul class="shapes">
-                <li id="quote-shape" class="large purple square clickable-shape">
-                    <a href="/quotes" class="shape-link">Quotes</a>
-                </li>
-                <li id="quiz-shape" class="large green circle clickable-shape">
-                    <a href="/quiz" class="shape-link">Quiz</a>
-                </li>
-                <li id="game-shape" class="large green square clickable-shape">
-                    <a href="/game" class="shape-link-game">Games</a>
-                </li>
-                <!-- Otras figuras -->
-            </ul>
-        </div>
 
+    <!-- Content -->
+    <main
+        class="container {% if request.resolver_match.url_name == 'home' %}hero-center{% endif %} py-5 mt-3 {% if request.resolver_match.url_name == 'llm_chat_page' %}chat-centered{% endif %}">
         {% block content %}
         {% endblock %}
     </main>
+
+    <!-- Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>{{ message }}</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
 
     <!-- Footer -->
     <footer class="bg-footer text-center text-white py-2 mt-auto">
@@ -118,12 +98,13 @@
     </footer>
 
     <!-- Bootstrap Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"></script>
+
 
     <!-- Custom Scripts JS -->
     {% block extra_scripts %}
     {% endblock %}
 </body>
+
 </html>

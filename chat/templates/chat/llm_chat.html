@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+{% block content %}
+
+<section class="w-100">
+    <div class="row d-flex align-items-center justify-content-center">
+        <div class="col-lg-6 col-sm-12">
+            <form method="post" class="card rounded-chat border-color-chat">
+                {% csrf_token %}
+                <!-- Header -->
+                <div class="card-header text-center border-color-chat">
+                    <h5 class="m-0 fw-bold py-2">
+                        Hello, <span class="text-color-chat">User!</span>
+                    </h5>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body body-chat overflow-container" id="promptWindow">
+                    <div class="p-2">
+                        <div class="row align-items-center my-2">
+                            <div class="col">
+                                <p class="mb-0 fst-italic text-center intro-text">
+                                    Resolve your inner doubts right here.
+                                    What you'll uncover will truly surprise you! </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="card-footer border-color-chat">
+                    <div class="my-3">
+                        <div class="d-flex gap-2 align-items-center">
+                            <select name="promptDropdown" class="form-select w-auto border-color-chat"
+                                id="promptDropdown" required>
+                                <option value="" disabled selected>Choose</option>
+                                <option value="can_not">I can't</option>
+                                <option value="will_not">I won't</option>
+                                <option value="do_not">I don't</option>
+                                <option value="am_not">I ain't</option>
+                            </select>
+
+                            <input type="text" name="prompt" class="form-control border-color-chat"
+                                placeholder="Enter your thought..." id="promptText" required>
+                            <button class="d-flex justify-content-center align-items-center round-send-chat pointer"
+                                id="sendPrompt">
+                                <i class="fa-solid fa-paper-plane text-white" id="submitIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="toastContainer" class="toast-container position-fixed bottom-0 end-0 p-3 z-index-front">
+        <div id="basicToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+            <div class="toast-header">
+                <strong class="me-auto">Notice</strong>
+                <small>Just now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-black">
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'includes/llm_chat_js.html' %}
+{% endblock content %}

@@ -2,6 +2,20 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<h1>Welcome</h1>
-
+<section class="w-100">
+    <div class="row">
+        <!-- Hero -->
+        <div class="col-12 col-lg-12 col-sm-12 text-center mt-5">
+            <h1 class="d-inline-block p-0 m-0 px-5">
+                You don't need to feel ready to be worthy<small>—growth begins when you dare to show up anyway!</small>
+            </h1>
+        </div>
+        <!-- CTA -->
+         <div class="d-flex align-items-center justify-content-center">
+            <a href="{% url 'user_apps' %}" class="cta-btn mt-5 fw-bold text-decoration-none text-white">
+                START
+            </a>
+         </div>
+    </div>
+</section>
 {% endblock %}

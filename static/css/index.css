@@ -1,13 +1,48 @@
-body{
+body {
     background: linear-gradient(to bottom, #8e44ad, #273c75);
 
 }
-main, .container {
+
+main,
+.container {
     position: relative;
-    z-index: 1; /* fondo */
-    pointer-events: none;
+    z-index: 1;
+    /* fondo */
 }
 
-.bg-footer{
+.bg-footer {
     background-color: #e84393;
+}
+
+.pointer {
+    cursor: pointer !important;
+}
+
+.z-index-front {
+    z-index: 1080;
+}
+
+.bg-primary {
+    background-color: #9B59B6 !important;
+}
+
+.hero-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.cta-btn {
+    padding: 10px 35px 10px 35px;
+    border: 1px solid #34495E;
+    background-color: #00C9B7;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    transition: 0.3s;
+    background-color: #00c9b8b8;
 }

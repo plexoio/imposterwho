@@ -1,0 +1,51 @@
+.card-motivation {
+    background: rgba(255, 223, 186, 0.85); /* naranja claro */
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-favorites {
+    background: rgba(186, 255, 201, 0.85); /* verde menta */
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-progress {
+    background: rgba(186, 225, 255, 0.85); /* azul cielo */
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background: transparent;
+    border-bottom: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    background-color: #ff8c42;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #e6762c;
+}
+
+.btn-danger {
+    background-color: #d72638;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #b91e2e;
+}
+
+blockquote {
+    margin: 0;
+    font-style: italic;
+    color: #333;
+}

@@ -240,12 +240,20 @@
 }
 
 @media (max-width: 768px) {
-    #quote-shape,
-    #quiz-shape {
+    #quote-shape {
         transform: scale(0.7);
+        left: 50%;
+        top:10%;
+    }
+    #quiz-shape {
+        transform: scale(0.9);
         left: 10%;
-        top: auto;
-        bottom: 80px;
+        top: 50%;
+    }
+    #game-shape {
+        transform: scale(0.7);
+        left: 50%;
+
     }
 }
 

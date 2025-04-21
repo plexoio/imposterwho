@@ -1,0 +1,46 @@
+.chat-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.rounded-chat {
+    border-radius: 15px;
+}
+
+.text-color-chat {
+    color: #9B59B6;
+}
+
+.border-color-chat {
+    border-color: #34495E !important;
+}
+
+.round-send-chat {
+    height: 25px;
+    width: 25px;
+    border: 1px solid #34495E;
+    border-radius: 50%;
+    padding: 20px;
+    background-color: #9B59B6;
+}
+
+.body-chat {
+    height: 50vh;
+}
+
+.overflow-container {
+    max-height: 50vh;
+    /* Set the max height as you like */
+    overflow-y: auto;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.intro-text {
+    opacity: 0.5;
+}

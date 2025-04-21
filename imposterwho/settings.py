@@ -69,8 +69,11 @@ INSTALLED_APPS = [
     "storages",
     # apps
     "admin_dashboard",
+    "user_dashboard",
+    "quiz_play",
     "homepage",
     "game",
+    "chat",
 ]
 
 
@@ -111,6 +114,38 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "imposterwho.wsgi.application"
 
+# CSRF Trusted Origins
+
+CSRF_TRUSTED_ORIGINS = []
+
+
+def add_to_trusted_origins(origin_list, origin):
+    """
+    Adds a given origin to the list of trusted origins.
+
+    If the provided origin does not start with "http://" or "https://",
+    it prepends "https://" to the origin before adding it to the list.
+
+    Parameters:
+        origin_list (list): The list to which the origin will be added.
+        origin (str): The origin to be added to the trusted origins.
+    """
+    if origin and not origin.startswith(("http://", "https://")):
+        origin = "https://" + origin
+    origin_list.append(origin)
+
+
+if DEBUG:
+    # Gitpod
+    gitpod_url = os.environ.get("GITPOD_WORKSPACE_URL")
+    if gitpod_url:
+        add_to_trusted_origins(CSRF_TRUSTED_ORIGINS, gitpod_url)
+else:
+    # Heroku
+    heroku_hostname = os.environ.get("HEROKU_HOSTNAME")
+    if heroku_hostname:
+        add_to_trusted_origins(CSRF_TRUSTED_ORIGINS, heroku_hostname)
+
 # Authentication
 
 AUTH_USER_MODEL = "homepage.UserProfile"
@@ -126,12 +161,12 @@ ACCOUNT_LOGIN_METHODS = {
 ACCOUNT_SIGNUP_FIELDS = [
     "email*",
 ]
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_FIELDS = ["email*", "email2*"]
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = "/account/login/"
 LOGIN_REDIRECT_URL = "role_redirect"
-LOGOUT_REDIRECT_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/"
 
 ACCOUNT_LOGIN_REDIRECT_URL = "role_redirect"
 
@@ -283,6 +318,10 @@ else:
     EMAIL_HOST = "smtp.gmail.com"
     EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASS")
+
+# AI - LLM Interaction
+TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
+AI_MODEL = os.environ.get("AI_MODEL")
 
 # Debugging
 
