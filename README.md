@@ -1,7 +1,7 @@
 # 🎮💬 **ImposterWho: Motivate, Play, and Chat!** 💬🎮
 
 <p align="center">
-  <img src="https://res.cloudinary.com/djdefbnij/image/upload/v1705314715/Hackathons/Screenshot_2024-01-15_at_10.27.38_rc7lor.png" alt="ImposterWho Banner" width="1200"/>
+  <img src="https://imposterwho.s3.eu-north-1.amazonaws.com/media/banner.png" alt="ImposterWho Banner" width="1200"/>
 </p>
 
 ## 📄 About Submission
