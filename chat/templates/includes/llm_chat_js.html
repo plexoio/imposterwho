@@ -11,7 +11,7 @@
             let promptWindow = $("#promptWindow");
             const submitIcon = $("#submitIcon");
             const submitToken = $('#sendPrompt').data('token');
-            const sendPromptAlert = $('#sendPromptAlert');
+            const toastBody = $(".toast-body");
 
             // Disabled
             submitButton.prop('disabled', true);
@@ -22,12 +22,21 @@
             const promptText = $("#promptText").val();
 
             // Interaction
-            if (promptDropdown === undefined || promptText === undefined) {
-                sendPromptAlert.text("{% trans 'You must submit some data' %}");
+            if ((promptDropdown === undefined || promptText === undefined) || promptDropdown === "Choose") {
+                // Toast Message
+                toastBody.text("{% trans 'Please choose an option from the dropdown.' %}");
+                const toast = new bootstrap.Toast(document.getElementById('basicToast'));
+                toast.show();
+                
+                // Elements
                 submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
-                submitButton.prop('disabled', false);
+                setTimeout(function () {
+                    submitButton.prop('disabled', false);
+                    $("#sendPrompt").removeClass('disabled');
+                    submitIcon.html('<i class="fa-solid fa-paper-plane text-white" id="submitIcon"></i>');
+                }, 3000);
             } else {
-                sendPromptAlert.text("");
+                toastBody.text("");
                 submitIcon.html('<i class="fa-solid fa-spinner" id="spinner"></i>');
 
                 let form_data;
@@ -86,14 +95,22 @@
                             }, 3000);
                         } else {
                             submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
-                            sendPromptAlert.text(`${json.message}`);
                             console.log(json.message);
+
+                            // Toast Message
+                            toastBody.text(`${json.message}`);
+                            const toast = new bootstrap.Toast(document.getElementById('basicToast'));
+                            toast.show();
+
                             submitButton.prop('disabled', false);
                         }
                     },
                     error: function (xhr, errmsg, err) {
                         submitIcon.html('<i class="fa-solid fa-triangle-exclamation"></i>');
-                        sendPromptAlert.text(`${err}`);
+                        // Toast Message
+                        toastBody.text(`${err} -> ${xhr.status}, ${errmsg}`);
+                        const toast = new bootstrap.Toast(document.getElementById('basicToast'));
+                            toast.show();
                         console.log(`Status Code: ${xhr.status}`);
                         console.log(`Status Text: ${errmsg}`);
                         console.log(`Error Thrown: ${err}`);

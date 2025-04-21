@@ -258,21 +258,6 @@
 }
 
 
-/*EXTRA CONTENT RICHARD IDEA*/
-.clickable-shape {
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    width: var(--shape-width);
-    height: var(--shape-height);
-    z-index: 1000!important;
-}
-
-.clickable-shape:hover {
-    transform: scale(1.15);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-}
-
 /* Texto encima de la figura */
 a.shape-link {
     position: absolute;
@@ -302,3 +287,4 @@ a.shape-link-game {
 a.shape-link:hover {
     text-decoration: underline;
 }
+
