@@ -8,6 +8,7 @@ from admin_dashboard.common_imports import (
     settings,
     redirect,
     reverse_lazy,
+    re,
 )
 
 from together import Together
@@ -16,12 +17,19 @@ from together import Together
 class AIChatTemplateView(
     TemplateView,
 ):
-    """ """
+    """
+    Handles the rendering of the AI chat template view.
+
+    This view is responsible for rendering the LLM chat template
+    ("chat/llm_chat.html").
+    It also applies a rate limit for GET requests to prevent abuse,
+    allowing only 15 requests per minute per IP address.
+    """
 
     template_name = "chat/llm_chat.html"
 
     @method_decorator(
-        ratelimit(key="ip", rate="100/m", method="GET", block=True),
+        ratelimit(key="ip", rate="15/m", method="GET", block=True),
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -36,10 +44,40 @@ class AIChatTemplateView(
 
 
 class LLMInteractionView(View):
-    """ """
+    """
+    Handles POST requests for interacting with a Large Language Model (LLM)
+    to transform user-submitted negative self-talk into a positive,
+    empowering response, followed by a motivational quote.
+
+    The view accepts a POST request containing two fields:
+        - form_data[promptDropdown]: A dropdown category or context for the
+        prompt.
+        - form_data[promptText]: The actual user input text.
+
+    The view constructs a user prompt and sends it to a language model via the
+    Together API.
+    The system prompt instructs the model to:
+        - Flip the negative tone of the prompt into a positive one.
+        - Format the response in a specific JSON structure containing 'flipped'
+        and 'quote'.
+        - Avoid redundant text and maintain strict formatting for JSON parsing.
+
+    If the prompt text is missing or empty, a fallback message and quote
+    authors are provided to serve the user.
+
+    The response is returned as JSON:
+        {
+            "status": "success",
+            "flipped": "<positive version of input>",
+            "quote": "<motivational quote>"
+        }
+
+    Rate limiting is applied to prevent abuse (max 10 requests per minute
+    per IP).
+    """
 
     @method_decorator(
-        ratelimit(key="ip", rate="10/m", method="POST", block=True),
+        ratelimit(key="ip", rate="15/m", method="POST", block=True),
     )
     def post(self, request, *args, **kwargs):
         fb_prompt_message = ""
@@ -49,30 +87,38 @@ class LLMInteractionView(View):
 
         # System Role
         system_role = """
-        Flip the negative part of the sentence into a positive one, ensuring the response is clean and concise. 
-        Address the person directly, replacing pronouns where necessary. 
-        End the response with a motivational quote proven to help individuals dealing with imposter syndrome. 
+        Your task is to transform negative user input into a concise,
+        positive message and include a motivational quote that is relevant
+        and helpful for those experiencing imposter syndrome.
 
-        Return the revised sentence and quote exactly as follows, with no additional explanations or context:
+        Instructions:
 
-        \\"<div class=\\"border p-2 rounded border-color-chat mt-3\\">
-            <div class=\\"row align-items-center my-2\\">
-                <div class=\\"col-auto image-container\\">
-                </div>
-                <div class=\\"col\\">
-                    <p class=\\"mb-0 fw-bold text-color-chat\\">
-                    [Flipped sentence goes here]
-                    </p>
-                </div>
-                <blockquote class=\\"fst-italic pb-0 pt-3 text-center px-4 m-0\\">
-                    \\"[Quote goes here]\\" - [Author goes here]
-                </blockquote>
-            </div>
-        </div>\\"
+        1. Rewrite the user's message in a positive tone. Make it concise
+        and direct.
+        2. Address the user personally. If applicable, replace generic
+        pronouns with direct address (e.g., "you").
+        3. End your response with a motivational quote.
+        - The quote should be relevant to the context of the user's prompt.
+        - Choose from well-known authors such as: Brené Brown, Albert Bandura,
+        Sheryl Sandberg, Seth Godin, Marie Forleo, Maya Angelou, Carol Dweck,
+        Tim Ferriss, Eleanor Roosevelt, Wayne Dyer, Tara Mohr, Amy Cuddy,
+        Mel Robbins, Adam Grant, Elizabeth Gilbert, Simon Sinek,
+        Angela Duckworth, Sally Kohn, Dan Pink, Shonda Rhimes, Zig Ziglar.
+        4. Format your full response strictly as JSON with no extra commentary,
+        labels, or introductory phrases.
+        5. The JSON must use **double quotes only** (") for strings.
+        6. Do not escape double quotes (no backslashes).
+        7. Include the author's name inside the quote itself,
+        separated by a hyphen.
+        8. The structure must always follow this exact format:
 
-        Do not add any phrases like \\"Here is the revised response:\\" or \\"was revised to:\\". Just provide the formatted response directly as instructed.
-        Do not repeat the same quotes.
-        The quote has to be related to the prompt.
+        {
+            "flipped": "Your positive statement here.",
+            "quote": "Motivational quote - Author"
+        }
+
+        9. Do NOT include any explanations, prefixes, suffixes,
+        or escape characters. Only return the pure JSON object above.
         """
 
         # User Prompt
@@ -113,9 +159,23 @@ class LLMInteractionView(View):
             # FB System Role
             system_role = (
                 f"Return this only: {fb_role}. "
-                "Provide a motivational quote at the end that has been proven "
+                "1. Provide a motivational quote at the end "
                 "to help people facing issues with imposter syndrome. "
-                "Based on the list authors passed."
+                "Base it on the list of authors provided. "
+                "2. Return the revised sentence and quote exactly as follows, "
+                "with no additional explanations or context:\n"
+                "{\n"
+                '    \\"flipped\\": \\"\\",\n'
+                '    \\"quote\\": \\"\\"\n'
+                "}\n"
+                '3. Do not add any phrases like \\"Here is the revised response:\\" '
+                'or \\"was revised to:\\". '
+                "Just provide the formatted response directly as instructed. "
+                "4. Do not repeat the same quotes. "
+                "5. The quote has to be related to the prompt. "
+                '6. The quote cannot contain quotation marks as \\"\\" to avoid '
+                "conflict with JSON. "
+                'Make it properly as \\"quote\\": \\"\\".'
             )
 
             # Fallback Message
@@ -131,21 +191,62 @@ class LLMInteractionView(View):
         llm = settings.AI_MODEL
 
         # Call Together API
-        response = client.chat.completions.create(
-            model=llm,
-            messages=[
-                {"role": "system", "content": system_role},
-                {"role": "user", "content": prompt},
-            ],
-            temperature=0.7,
-            max_tokens=200,
-        )
+        try:
+            response = client.chat.completions.create(
+                model=llm,
+                messages=[
+                    {"role": "system", "content": system_role},
+                    {"role": "user", "content": prompt},
+                ],
+                temperature=0.7,
+                max_tokens=200,
+            )
+        except Exception as e:
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "message": f"An error occurred while processing your request: {str(e)}",
+                },
+                status=500,
+            )
 
-        # Get and return the response from the model
-        result = response.choices[0].message.content
+        flipped = ""
+        quote = ""
+
+        try:
+            result = response.choices[0].message.content
+            json_match = re.search(r"\{.*\}", result, re.DOTALL)
+
+            if json_match:
+                json_str = json_match.group(0)
+                json_str = json_str.replace("\\", "")
+                try:
+                    data = json.loads(json_str)
+                    flipped = data.get("flipped", "")
+                    quote = data.get("quote", "")
+                except json.JSONDecodeError as e:
+                    print("Failed to decode JSON:", e)
+            else:
+                flipped = "Is it really what you are looking for?"
+                quote = (
+                    "You have power over your mind — not outside events. "
+                    "Realize this, and you will find strength. "
+                    "- Marcus Aurelius"
+                )
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {str(e)}")
+            flipped = "Something went wrong while processing the response."
+            quote = "Please try again later."
+
+        except Exception as e:
+            print(f"Unexpected error: {str(e)}")
+            flipped = "An unexpected error occurred."
+            quote = "Please try again later."
+
         return JsonResponse(
             {
                 "status": "success",
-                "message": result,
+                "flipped": flipped,
+                "quote": quote,
             }
         )
