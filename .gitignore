@@ -11,3 +11,4 @@ cloudinary_python.txt
 *.pyc
 venv
 *.log
+django_debug.log
