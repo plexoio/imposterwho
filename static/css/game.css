@@ -43,7 +43,8 @@ h1, p {
     touch-action: none;
     transform: translate(0px, 0px);
 
-    transition: background-color 0.3s;
+    /* Add transitions for opacity and background color */
+    transition: opacity 1s, background-color 2s;
 }
 
 .drag-drop.can-drop {
@@ -51,9 +52,25 @@ h1, p {
     background-color: #4e4;
 }
 
+.drag-text {
+    transition: opacity 1s; /* Apply the fade-out effect to the text */
+    display: inline-block; /* Ensure the text behaves as a block for styling */
+}
+
 /* disable homepage buttons when in game */
 .shapes #quote-shape,
 .shapes #quiz-shape,
 .shapes #game-shape {
     display: none;
+}
+
+/* Hidden elements */
+.hidden {
+    display: none;
+}
+
+#submit-button {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
 }
