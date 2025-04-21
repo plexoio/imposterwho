@@ -1,18 +1,10 @@
-{% if request.resolver_match.url_name == 'home' and request.resolver_match.url_name != 'user_dashboard' %}
 <div>
     <ul class="shapes">
-        <li id="quote-shape" class="large purple square clickable-shape">
-            <a href="/quotes" class="shape-link">Quotes</a>
-        </li>
         <li id="quiz-shape" class="large green circle clickable-shape">
-
-            <a href="{% url 'quiz_list' %}" class="shape-link">Quiz</a>
+            <a href="{% url 'llm_chat_page' %}" class="shape-link">Chat</a>
         </li>
         <li id="game-shape" class="large green square clickable-shape">
-            <a href="/quiz" class="shape-link-game">Games</a>
+            <a href="{% url 'game' %}" class="shape-link-game">Games</a>
         </li>
-        <!-- Otras figuras -->
     </ul>
 </div>
-
-{% endif %}

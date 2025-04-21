@@ -21,3 +21,28 @@ main,
 .z-index-front {
     z-index: 1080;
 }
+
+.bg-primary {
+    background-color: #9B59B6 !important;
+}
+
+.hero-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.cta-btn {
+    padding: 10px 35px 10px 35px;
+    border: 1px solid #34495E;
+    background-color: #00C9B7;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    transition: 0.3s;
+    background-color: #00c9b8b8;
+}
