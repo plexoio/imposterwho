@@ -6,15 +6,37 @@
 {% endblock %}
 {% block content %}
 
-<h1>Welcome</h1>
+<h1>Imposter Game</h1>
+<p class="h5">What are your thoughts?</p>
 
-<div id="no-drop" class="drag-drop"> #no-drop </div>
+<div id="prefix-1-drag" class="drag-drop prefix">
+  <span class="drag-text">I am</span>
+</div>
+<div id="suffix-1-drag" class="drag-drop suffix">
+  <span class="drag-text">not enough.</span>
+</div>
 
-<div id="yes-drop" class="drag-drop"> #yes-drop </div>
+<div class="d-flex justify-content-center align-items-center flex-row">
+  <div id="prefix-dropzone" class="dropzone col-6">prefix</div>
+  <div id="suffix-dropzone" class="dropzone col-6">suffix</div>
+</div>
 
-<div id="outer-dropzone" class="dropzone">
-  #outer-dropzone
-  <div id="inner-dropzone" class="dropzone">#inner-dropzone</div>
+<div id="prefix-2-drag" class="drag-drop prefix">
+  <span class="drag-text">I</span>
+</div>
+<div id="suffix-2-drag" class="drag-drop suffix">
+  <span class="drag-text">can't do this.</span>
+</div>
+<div id="prefix-3-drag" class="drag-drop prefix hidden">
+  <span class="drag-text">We</span>
+</div>
+<div id="suffix-3-drag" class="drag-drop suffix hidden">
+  <span class="drag-text">won't make it.</span>
+</div>
+
+<!-- Submit button -->
+<div class="text-center mt-4">
+  <button id="submit-button" class="btn btn-secondary" disabled>Submit</button>
 </div>
 
 {% endblock %}
