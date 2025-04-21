@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Contact{% endblock %}
+{% block extra_head %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "uxvG9S9CWRE92f1jp",
+      });
+   })();
+</script>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-6 mx-auto">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Contact Us</h6>
+      </div>
+      <div class="card-body">
+        <form id="contactForm">
+          <div class="mb-3">
+            <label for="name" class="form-label text-muted">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Your full name" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label text-muted">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label text-muted">Subject</label>
+            <textarea class="form-control" id="subject" placeholder="Your subject here..." required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label text-muted">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Your message here..." required></textarea>
+          </div>
+
+          <!-- reCAPTCHA placeholder -->
+          <div class="mb-3">
+            <div class="g-recaptcha" data-sitekey="6LckBx8rAAAAAKP0z3s87sLFwjktLaLKwSiq856s"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane me-1"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}
