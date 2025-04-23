@@ -3,6 +3,38 @@ site_name: ImposterWho
 # use_directory_urls: false
 nav:
   - Home: index.md
+  - AI Integration:
+    - Overview: ai_integration/overview.md
+    - Backend:
+      - Backend Integration: ai_integration/backend.md
+      - Context Handling: ai_integration/context_handling.md
+      - Caching: ai_integration/caching.md
+      - Rate Limit: ai_integration/rate_limit.md
+      - Fallback: ai_integration/fallback.md
+      - Logging: ai_integration/logging.md
+      - Fine-Tuning: ai_integration/fine_tuning.md
+    - Frontend:
+      - Frontend Integration: ai_integration/frontend.md
+    - Self-hosting:
+      - Overview: self_hosting/self-hosting.md
+      - Requirements: self_hosting/requirements.md
+    - Should-have:
+      - Model Selection UI: ai_integration/model_selection_ui.md
+      - RAG: ai_integration/rag.md
+      - Prompt Engineering Layer: prompt_engineering_layer.md
+      - Token Usage Tracking: ai_integration/token_usage_tracking.md
+      - Model Abstraction Layer: ai_integration/model_abstraction_layer.md
+      - Session Management: ai_integration/session_management.md
+      - User Feedback Loop: ai_integration/user_feedback_loop.md
+    - Concepts:
+      - LLM: ai_integration/llm.md
+      - Tokens: ai_integration/tokens.md
+      - Temperature: ai_integration/temperature.md
+      - Inference: ai_integration/inference.md
+      - Fine-Tuning: ai_integration/fine_tuning.md
+      - Endpoints: ai_integration/endpoints.md
+      - GPU Clusters: ai_integration/gpu_clusters.md
+
 
 # PLUGINS
 plugins:
